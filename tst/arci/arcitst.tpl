@@ -107,9 +107,9 @@ opcopy_eot:
    stw         r4,0(r5)
 
 # get tst start
-   lwz         r1,init_msr(r0)
+   lwz         r1,(init_msr-tst_inits)(r3)
    mtsrr1      r1
-   lwz         r1,iars(r0)
+   lwz         r1,(init_iar-tst_inits)(r3)
    mtsrr0      r1
 
 # init test regs
