@@ -69,9 +69,9 @@ init_iar:      .int 0x00010000
 
 save_r1:       .int 0
 
-codelen:       .int 13
-ops:           .int 0x7C61CC14,0x7D230595,0x7AC37392,0x7E094C11,0x7E1CB115,0x7A338886,0x7C6004D1,0x7E09B038,0x7C360591,0x7E2B00D1,0x60000000,0x60000000,0x60000000
-iars:          .int 0x00010000,0x00010004,0x00010008,0x0001000C,0x00010010,0x00010014,0x00010018,0x0001001C,0x00010020,0x00010024,0x00010028,0x0001002C,0x00010030
+codelen:       .int 10
+ops:           .int 0x7C61CC14,0x7D230595,0x7AC37392,0x7E094C11,0x7E1CB115,0x7A338886,0x7C6004D1,0x7E09B038,0x7C360591,0x7E2B00D1,
+iars:          .int 0x00010000,0x00010004,0x00010008,0x0001000C,0x00010010,0x00010014,0x00010018,0x0001001C,0x00010020,0x00010024,
 
 # -------------------------------------------------------------------------------------------------
 # r3=@tst_inits
@@ -107,9 +107,9 @@ opcopy_eot:
    stw         r4,0(r5)
 
 # get tst start
-   lwz         r1,init_msr(r0)
+   lwz         r1,(init_msr-tst_inits)(r3)
    mtsrr1      r1
-   lwz         r1,iars(r0)
+   lwz         r1,(init_iar-tst_inits)(r3)
    mtsrr0      r1
 
 # init test regs

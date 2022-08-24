@@ -179,9 +179,10 @@ class TstParser:
 
    def parse(self):
 
-      skipComments = False #wtf am i using this anymore?
+      skipComments = False
       start = True
       inInits = False
+      inEpilogue = False
       inResults = False
       inReads = False
       inWrites = False
@@ -251,7 +252,15 @@ class TstParser:
          elif cardType == 'RESULTS:':
             inReads = False
             inWrites = False
+            inEpilogue = False
             inResults = True
+            continue
+         elif cardType == 'EPILOGUE':
+            inEpilogue = True
+
+         # epilogue
+         # ignore everything for now; it should only be PTE lookups in space for end o' test ops
+         if inEpilogue:
             continue
 
          # info
@@ -287,9 +296,8 @@ class TstParser:
          # ops
          # I 0003FFC000010000 BBAEDB3E * EA=0000000000010000 WIMG=2 LE=TRUE addis G22,G27,0xAEBB       INum:1
          if cardType == 'I':
-            if op is not None:
-               test.addOp(op)
             op = Op(tokens[2], tokens[7:-1], tokens[4][3:], tokens[1])
+            test.addOp(op)
             continue
 
       return self.numTests
@@ -332,8 +340,8 @@ class TstParser:
          tstData['inits'] += f'0x{tst.inits.regs[i].val},'
          tstData['numInitRegs'] += 1
 
-      tstData['initIDs'] = f'{{{tstData["initIDs"][0:-1]}}}'
-      tstData['inits'] = f'{{{tstData["inits"][0:-1]}}}'
+      tstData['initIDs'] = f'{{{tstData["initIDs"]}}}'
+      tstData['inits'] = f'{{{tstData["inits"]}}}'
 
       for i in range(len(tst.results.regs)):
          #tstData['expectIDs'] += f'0x{tst.results.regs[i].id:04X},'
@@ -341,8 +349,8 @@ class TstParser:
          tstData['expects'] += f'0x{tst.results.regs[i].val},'
          tstData['numExpectRegs'] += 1
 
-      tstData['expectIDs'] = f'{{{tstData["expectIDs"][0:-1]}}}'
-      tstData['expects'] = f'{{{tstData["expects"][0:-1]}}}'
+      tstData['expectIDs'] = f'{{{tstData["expectIDs"]}}}'
+      tstData['expects'] = f'{{{tstData["expects"]}}}'
 
 
       for i in range(len(tst.ops)):
@@ -350,8 +358,8 @@ class TstParser:
          tstData['iars'] += f'0x{tst.ops[i].ea},'
          tstData['codeLen'] += 1
 
-      tstData['ops'] = f'{{{tstData["ops"][0:-1]}}}'
-      tstData['iars'] = f'{{{tstData["iars"][0:-1]}}}'
+      tstData['ops'] = f'{{{tstData["ops"]}}}'
+      tstData['iars'] = f'{{{tstData["iars"]}}}'
 
       tpl = tpl.substitute(tstData)
       return tpl
@@ -427,8 +435,8 @@ class TstParser:
          tstData['iars'] += f'0x{tst.ops[i].ea[p:]},'
          tstData['codeLen'] += 1
 
-      tstData['ops'] = f'{tstData["ops"][0:-1]}'
-      tstData['iars'] = f'{tstData["iars"][0:-1]}'
+      tstData['ops'] = f'{tstData["ops"]}'
+      tstData['iars'] = f'{tstData["iars"]}'
 
       tpl = tpl.substitute(tstData)
       return tpl
@@ -463,7 +471,6 @@ if __name__ == "__main__":
 
    # do something
    inf = open(inFile, 'r')
-   ouf = open(outFile, 'w')
 
    parser = TstParser(inf)
    numTests = parser.parse()
@@ -484,6 +491,7 @@ if __name__ == "__main__":
          print(tst.results)
 
    # could save as json array or individuals
+   #ouf = open(outFile, 'w')
    #jsonData = json.dumps(parser.test(), indent=2, cls=TestEncoder)
    #print(jsonData, file=ouf)
    #print(f'Created {outFile}.')
