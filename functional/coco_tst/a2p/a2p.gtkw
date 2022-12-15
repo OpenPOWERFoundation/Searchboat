@@ -1,0 +1,453 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Dec 14 18:35:39 2022
+[*]
+[dumpfile] "/data/projects/Searchboat/functional/coco_tst/a2p/a2p.fst"
+[dumpfile_mtime] "Wed Dec 14 17:57:08 2022"
+[dumpfile_size] 65575
+[savefile] "/data/projects/Searchboat/functional/coco_tst/a2p/a2p.gtkw"
+[timestart] 71530
+[size] 1993 1127
+[pos] 141 55
+*-14.095013 120000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[treeopen] tb.core.
+[sst_width] 389
+[signals_width] 470
+[sst_expanded] 1
+[sst_vpaned_height] 314
+@28
+tb.clk
+tb.reset
+tb.externalInterrupt
+tb.externalInterruptS
+tb.softwareInterrupt
+tb.timerInterrupt
+@200
+-div
+@c00200
+-div
+@22
+tb.core.memory_PC[31:0]
+tb.core.memory_INSTRUCTION[31:0]
+tb.core.FX_DIV.src1[32:0]
+tb.core.FX_DIV.src2[31:0]
+tb.core.DIV_rs1[32:0]
+tb.core.DIV_rs2[31:0]
+tb.core.FX_DIV_result[31:0]
+@28
+tb.core.DIV_MEM_crBusPort_valid
+tb.core.DIV_MEM_xerBusPort_valid
+@22
+tb.core.FX_DIV.FX_DIV_stg_0_outNumerator[31:0]
+tb.core.FX_DIV.FX_DIV_stg_0_outRemainder[31:0]
+tb.core.FX_DIV.FX_DIV_stg_0_remainderMinusDenominator[32:0]
+tb.core.FX_DIV.FX_DIV_stg_0_remainderShifted[32:0]
+@28
+tb.core.FX_DIV.div_mod
+tb.core.FX_DIV.revert
+@22
+tb.core.FX_DIV.counter_value[5:0]
+@28
+tb.core.FX_DIV.start
+tb.core.FX_DIV.running
+tb.core.FX_DIV.done
+tb.core.FX_DIV.valid
+@22
+tb.core.FX_DIV.result[31:0]
+tb.core.FX_DIV.accumulator[64:0]
+@28
+tb.core.lastStageRegFileWrite_valid
+@22
+tb.core.lastStageRegFileWrite_payload_data[31:0]
+@28
+tb.core.DIV_MEM_rs1NeedRevert
+tb.core.DIV_MEM_rs2NeedRevert
+tb.core.memory_arbitration_haltItself
+tb.core.DIV_MEM_xerBusPort_valid
+tb.core.DIV_MEM_xerBusPort_payload_validSO
+tb.core.DIV_MEM_xerBusPort_payload_validOV
+tb.core.FX_DIV_ov
+tb.core.DIV_MEM_xerBusPort_payload_validCA
+tb.core.DIV_MEM_xerBusPort_payload_imm[2:0]
+@1401200
+-div
+@200
+-mul
+@c00200
+-mul
+@22
+tb.core.execute_MUL_LL[31:0]
+tb.core.execute_MUL_LH[33:0]
+tb.core.execute_MUL_HL[33:0]
+tb.core.execute_MUL_HH[33:0]
+tb.core.memory_MUL_LOW[51:0]
+tb.core.MUL_ADD2.src1[51:0]
+tb.core.MUL_ADD2.src2[33:0]
+tb.core.MUL_ADD2.result[65:0]
+tb.core.MUL3_cr_decode[3:0]
+@28
+tb.core.MUL3_set_cr
+tb.core.MUL3_cr[1:0]
+tb.core.MUL3_set_ov
+tb.core.MUL3_xer_ov
+tb.core.MUL3_xer_so
+tb.core.MUL3_xerBusPort_valid
+tb.core.MUL3_xerBusPort_payload_imm[2:0]
+tb.core.MUL3_xerBusPort_payload_validSO
+tb.core.MUL3_xerBusPort_payload_validOV
+@22
+tb.core.execute_IntAluPluginComp_XER[31:0]
+@1401200
+-mul
+@200
+-
+@28
+tb.core.decode_arbitration_isValid
+tb.core.decode_arbitration_isFiring
+@22
+tb.core.decode_PC[31:0]
+tb.core.decode_INSTRUCTION[31:0]
+@28
+tb.core.execute_arbitration_isValid
+tb.core.execute_arbitration_isFiring
+tb.core.decode_arbitration_isStuckByOthers
+@22
+tb.core.execute_PC[31:0]
+tb.core.execute_INSTRUCTION[31:0]
+tb.core.execute_SRC1[31:0]
+tb.core.execute_SRC2[31:0]
+@28
+tb.core.execute_SRC3
+tb.core.execute_MEMORY_ENABLE
+tb.core.execute_MEMORY_MANAGMENT
+@22
+tb.core.execute_SRC_ADD[31:0]
+@28
+tb.core.memory_arbitration_isValid
+tb.core.memory_arbitration_isFiring
+@22
+tb.core.memory_PC[31:0]
+tb.core.memory_INSTRUCTION[31:0]
+@28
+tb.core.writeBack_arbitration_isValid
+tb.core.writeBack_arbitration_isFiring
+@22
+tb.core.writeBack_PC[31:0]
+@c00022
+tb.core.writeBack_INSTRUCTION[31:0]
+@28
+(0)tb.core.writeBack_INSTRUCTION[31:0]
+(1)tb.core.writeBack_INSTRUCTION[31:0]
+(2)tb.core.writeBack_INSTRUCTION[31:0]
+(3)tb.core.writeBack_INSTRUCTION[31:0]
+(4)tb.core.writeBack_INSTRUCTION[31:0]
+(5)tb.core.writeBack_INSTRUCTION[31:0]
+(6)tb.core.writeBack_INSTRUCTION[31:0]
+(7)tb.core.writeBack_INSTRUCTION[31:0]
+(8)tb.core.writeBack_INSTRUCTION[31:0]
+(9)tb.core.writeBack_INSTRUCTION[31:0]
+(10)tb.core.writeBack_INSTRUCTION[31:0]
+(11)tb.core.writeBack_INSTRUCTION[31:0]
+(12)tb.core.writeBack_INSTRUCTION[31:0]
+(13)tb.core.writeBack_INSTRUCTION[31:0]
+(14)tb.core.writeBack_INSTRUCTION[31:0]
+(15)tb.core.writeBack_INSTRUCTION[31:0]
+(16)tb.core.writeBack_INSTRUCTION[31:0]
+(17)tb.core.writeBack_INSTRUCTION[31:0]
+(18)tb.core.writeBack_INSTRUCTION[31:0]
+(19)tb.core.writeBack_INSTRUCTION[31:0]
+(20)tb.core.writeBack_INSTRUCTION[31:0]
+(21)tb.core.writeBack_INSTRUCTION[31:0]
+(22)tb.core.writeBack_INSTRUCTION[31:0]
+(23)tb.core.writeBack_INSTRUCTION[31:0]
+(24)tb.core.writeBack_INSTRUCTION[31:0]
+(25)tb.core.writeBack_INSTRUCTION[31:0]
+(26)tb.core.writeBack_INSTRUCTION[31:0]
+(27)tb.core.writeBack_INSTRUCTION[31:0]
+(28)tb.core.writeBack_INSTRUCTION[31:0]
+(29)tb.core.writeBack_INSTRUCTION[31:0]
+(30)tb.core.writeBack_INSTRUCTION[31:0]
+(31)tb.core.writeBack_INSTRUCTION[31:0]
+@1401200
+-group_end
+@28
+tb.core.dataCache_1__io_mem_cmd_m2sPipe_rData_wr
+tb.core.dataCache_1__io_mem_cmd_m2sPipe_rValid
+tb.core.dataCache_1__io_mem_cmd_m2sPipe_ready
+tb.core.dataCache_1__io_mem_cmd_m2sPipe_valid
+@22
+tb.core.dataCache_1__io_mem_cmd_payload_address[31:0]
+tb.core.dataCache_1__io_mem_cmd_payload_data[31:0]
+@28
+tb.core.dataCache_1__io_mem_cmd_payload_last
+tb.core.dataCache_1__io_mem_cmd_payload_length[2:0]
+@22
+tb.core.dataCache_1__io_mem_cmd_payload_mask[3:0]
+@28
+tb.core.dataCache_1__io_mem_cmd_payload_wr
+tb.core.dataCache_1__io_mem_cmd_valid
+@c00200
+-Hazards
+@28
+tb.core.Hazards_addr0Match
+tb.core.Hazards_addr1Match
+tb.core.Hazards_addr2Match
+@22
+tb.core.decode_R0_ADDR[4:0]
+tb.core.decode_R1_ADDR[4:0]
+tb.core.decode_R2_ADDR[4:0]
+tb.core.execute_R0_ADDR[4:0]
+tb.core.decode_RT_ADDR[4:0]
+tb.core.execute_RT_ADDR[4:0]
+tb.core.memory_RT_ADDR[4:0]
+tb.core.writeBack_RT_ADDR[4:0]
+@1401200
+-Hazards
+@28
+tb.core.IBusCachedPlugin_jump_pcLoad_valid
+@22
+tb.core.IBusCachedPlugin_jump_pcLoad_payload[31:0]
+@28
+tb.core.BranchPlugin_jumpInterface_valid
+@22
+tb.core.BranchPlugin_jumpInterface_payload[31:0]
+@29
+tb.core.SPRPlugin_jumpInterface_valid
+@28
+tb.core.execute_BranchPlugin_condOK
+tb.core.execute_BranchPlugin_ctrOK
+tb.core.execute_BranchPlugin_ctrOne
+tb.core.execute_arbitration_haltByOther
+@22
+tb.core.memory_SPR_ID[10:0]
+tb.core.writeBack_SPR_ID[10:0]
+@200
+-
+@22
+tb.core.execute_IntAluPluginComp_XER[31:0]
+@28
+tb.core.writeBack_RegFilePluginComp_xerBusPort_valid
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_validCA
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_validOV
+tb.core.execute_IntAluPluginComp_set_ov
+tb.core.execute_IntAluPluginComp_set_so
+tb.core.FX_ALU_ca
+tb.core.execute_IntAluPluginComp_xer_ca
+tb.core.execute_XER_CA
+tb.core.UpdateRegFileWrite_valid
+@22
+tb.core.UpdateRegFileWrite_payload_address[4:0]
+tb.core.UpdateRegFileWrite_payload_data[31:0]
+@28
+tb.core.lastStageRegFileWrite_valid
+@22
+tb.core.writeBack_RT_ADDR[4:0]
+tb.core.writeBack_REGFILE_WRITE_ADDR[4:0]
+tb.core.writeBack_REGFILE_WRITE_DATA[31:0]
+tb.core.writeBack_LOAD_UPDATE_ADDR[4:0]
+tb.core.execute_LOAD_UPDATE_ADDR[4:0]
+tb.core.memory_LOAD_UPDATE_ADDR[4:0]
+tb.core.writeBack_LOAD_UPDATE_ADDR[4:0]
+tb.core.writeBack_LOAD_UPDATE_DATA[31:0]
+tb.core.decode_R0_ADDR[4:0]
+tb.core.decode_R1_ADDR[4:0]
+tb.core.decode_R2_ADDR[4:0]
+tb.core.decode_RA[31:0]
+tb.core.decode_RB[31:0]
+tb.core.decode_RS[31:0]
+tb.core.decode_INSTRUCTION[31:0]
+tb.core.SRC2_result[31:0]
+tb.core.SRC_src2_other[31:0]
+tb.core.execute_RT_ADDR[4:0]
+tb.core.execute_REGFILE_WRITE_DATA[31:0]
+@28
+tb.core.execute_IntAluPluginComp_mcrxrx
+@22
+tb.core.execute_CR_WRITE_op[4:0]
+@820
+tb.core.execute_CR_WRITE_op_string[47:0]
+@22
+tb.core.execute_CR_FIELD_WR[7:0]
+tb.core.execute_CR_FIELD_WR[7:0]
+tb.core.execute_CR_WRITE_fxm[7:0]
+tb.core.execute_CR_WRITE_ba[4:0]
+tb.core.execute_CR_WRITE_bb[4:0]
+tb.core.execute_CR_WRITE_bt[4:0]
+tb.core.execute_CR_WRITE_imm[31:0]
+tb.core.execute_IntAluPluginComp_crBus_imm[31:0]
+@28
+tb.core.execute_IntAluPluginComp_cr0_val_a[2:0]
+@22
+tb.core.execute_IntAluPluginComp_cr0_val[3:0]
+@28
+tb.core.execute_IntAluPluginComp_cr_record
+@22
+tb.core.execute_IntAluPluginComp_XER[31:0]
+@28
+tb.core.writeBack_RegFilePluginComp_xerBusPort_valid
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_imm[2:0]
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_validCA
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_validOV
+tb.core.writeBack_RegFilePluginComp_xerBusPort_payload_validSO
+@22
+tb.core.writeBack_INSTRUCTION[31:0]
+@28
+tb.core.execute_IntAluPluginComp_set_so
+tb.core.execute_IntAluPluginComp_xerBus_validSO
+tb.core.MUL3_xerBusPort_payload_validSO
+tb.core.DIV_MEM_xerBusPort_payload_validSO
+tb.core.execute_IntAluPluginComp_set_ov
+tb.core.execute_IntAluPluginComp_xerBusPort_validOV
+tb.core.MUL3_xerBusPort_payload_validOV
+tb.core.DIV_MEM_xerBusPort_payload_validOV
+tb.core.execute_XER_OV
+tb.core.execute_IntAluPluginComp_xerBus_validCA
+tb.core.MUL3_xerBusPort_payload_validCA
+tb.core.DIV_MEM_xerBusPort_payload_validCA
+tb.core.execute_XER_CA
+tb.core.FX_ALUL_cr[2:0]
+@22
+tb.core.writeBack_CR_FIELD_WR[7:0]
+tb.core.writeBack_CR_WRITE_imm[31:0]
+tb.core.memory_RT_ADDR[4:0]
+tb.core.memory_REGFILE_WRITE_DATA[31:0]
+@28
+tb.core.lastStageRegFileWrite_valid
+@22
+tb.core.lastStageRegFileWrite_payload_address[4:0]
+tb.core.memory_REGFILE_WRITE_ADDR[4:0]
+tb.core.memory_REGFILE_WRITE_DATA[31:0]
+tb.core.decode_RT_ADDR[4:0]
+tb.core.execute_RT_ADDR[4:0]
+tb.core.memory_RT_ADDR[4:0]
+tb.core.writeBack_RT_ADDR[4:0]
+@28
+tb.core.UpdateRegFileWrite_valid
+@22
+tb.core.UpdateRegFileWrite_payload_address[4:0]
+tb.core.UpdateRegFileWrite_payload_data[31:0]
+@200
+-WBi
+@28
+tb.core.wb_i_CYC
+tb.core.wb_i_STB
+@2
+tb.core.wb_i_ADR[29:0]
+@28
+tb.core.wb_i_ACK
+@22
+tb.core.wb_i_DAT_MISO[31:0]
+@28
+tb.core.IBusCachedPlugin_cache.io_cpu_fetch_isStuck
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_isStuck
+tb.core.IBusCachedPlugin_cache.lineLoader_valid
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_cacheMiss
+@22
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_data[31:0]
+@28
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_error
+@22
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_exceptionType[3:0]
+@28
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_isStuck
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_isUser
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_isValid
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_mmuException
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_mmuRefilling
+@22
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_pc[31:0]
+tb.core.IBusCachedPlugin_cache.io_cpu_decode_physicalAddress[31:0]
+@200
+-WBd
+@28
+tb.core.wb_d_CYC
+tb.core.wb_d_STB
+@2
+tb.core.wb_d_ADR[29:0]
+@28
+tb.core.wb_d_WE
+@22
+tb.core.wb_d_SEL[3:0]
+@28
+tb.core.wb_d_ACK
+@22
+tb.core.wb_d_DAT_MISO[31:0]
+tb.core.wb_d_DAT_MOSI[31:0]
+@200
+-GPR
+@28
+tb.core.RegFilePluginComp_regFile.clk
+tb.core.RegFilePluginComp_regFile.reset
+@800200
+-RF
+@22
++{R00} tb.core.RegFilePluginComp_regFile.loc[0].dat[0:31]
++{R01} tb.core.RegFilePluginComp_regFile.loc[1].dat[0:31]
++{R02} tb.core.RegFilePluginComp_regFile.loc[2].dat[0:31]
++{R03} tb.core.RegFilePluginComp_regFile.loc[3].dat[0:31]
++{R04} tb.core.RegFilePluginComp_regFile.loc[4].dat[0:31]
++{R05} tb.core.RegFilePluginComp_regFile.loc[5].dat[0:31]
++{R06} tb.core.RegFilePluginComp_regFile.loc[6].dat[0:31]
++{R07} tb.core.RegFilePluginComp_regFile.loc[7].dat[0:31]
++{R08} tb.core.RegFilePluginComp_regFile.loc[8].dat[0:31]
++{R09} tb.core.RegFilePluginComp_regFile.loc[9].dat[0:31]
++{R10} tb.core.RegFilePluginComp_regFile.loc[10].dat[0:31]
++{R11} tb.core.RegFilePluginComp_regFile.loc[11].dat[0:31]
++{R12} tb.core.RegFilePluginComp_regFile.loc[12].dat[0:31]
++{R13} tb.core.RegFilePluginComp_regFile.loc[13].dat[0:31]
++{R14} tb.core.RegFilePluginComp_regFile.loc[14].dat[0:31]
++{R15} tb.core.RegFilePluginComp_regFile.loc[15].dat[0:31]
++{R16} tb.core.RegFilePluginComp_regFile.loc[16].dat[0:31]
++{R17} tb.core.RegFilePluginComp_regFile.loc[17].dat[0:31]
++{R18} tb.core.RegFilePluginComp_regFile.loc[18].dat[0:31]
++{R19} tb.core.RegFilePluginComp_regFile.loc[19].dat[0:31]
++{R20} tb.core.RegFilePluginComp_regFile.loc[20].dat[0:31]
++{R21} tb.core.RegFilePluginComp_regFile.loc[21].dat[0:31]
++{R22} tb.core.RegFilePluginComp_regFile.loc[22].dat[0:31]
++{R23} tb.core.RegFilePluginComp_regFile.loc[23].dat[0:31]
++{R24} tb.core.RegFilePluginComp_regFile.loc[24].dat[0:31]
++{R25} tb.core.RegFilePluginComp_regFile.loc[25].dat[0:31]
++{R26} tb.core.RegFilePluginComp_regFile.loc[26].dat[0:31]
++{R27} tb.core.RegFilePluginComp_regFile.loc[27].dat[0:31]
++{R28} tb.core.RegFilePluginComp_regFile.loc[28].dat[0:31]
++{R30} tb.core.RegFilePluginComp_regFile.loc[30].dat[0:31]
++{R31} tb.core.RegFilePluginComp_regFile.loc[31].dat[0:31]
+@1000200
+-RF
+@200
+-SPR
+@22
++{CR} tb.core.execute_BranchPlugin_CR[31:0]
++{XER} tb.core.execute_IntAluPluginComp_XER[31:0]
++{CTR} tb.core.execute_BranchPlugin_CTR[31:0]
++{LR} tb.core.execute_BranchPlugin_LR[31:0]
++{TAR} tb.core.execute_BranchPlugin_TAR[31:0]
+@800200
+-MSR
+@28
+tb.core.MSR_DR
+tb.core.MSR_EE
+tb.core.MSR_FE0
+tb.core.MSR_FE1
+tb.core.MSR_FP
+tb.core.MSR_IR
+tb.core.MSR_LE
+tb.core.MSR_ME
+tb.core.MSR_PMM
+tb.core.MSR_PR
+tb.core.MSR_RI
+tb.core.MSR_VEC
+tb.core.MSR_VSX
+@1000200
+-MSR
+@22
++{SRR0} tb.core.SPRPlugin_srr0[31:0]
++{SRR1} tb.core.SPRPlugin_srr1[31:0]
++{SPRG3} tb.core.SPRPlugin_sprg3[31:0]
++{DEC} tb.core.SPRPlugin_dec[31:0]
++{TB} tb.core.SPRPlugin_tb[31:0]
++{DAR} tb.core.SPRPlugin_dar[31:0]
++{DSISR} tb.core.SPRPlugin_dsisr[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

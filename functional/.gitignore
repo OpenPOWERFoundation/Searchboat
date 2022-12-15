@@ -1,0 +1,13 @@
+__pycache__/
+
+
+results.xml
+
+build_a2p/
+build_a2p_nowave/
+
+*.cf
+*.vcd
+*.fst
+
+*.log

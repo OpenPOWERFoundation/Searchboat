@@ -1,0 +1,55 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Dec 15 01:07:16 2022
+[*]
+[dumpfile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.fst"
+[dumpfile_mtime] "Thu Dec 15 00:47:51 2022"
+[dumpfile_size] 12538
+[savefile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.gtkw"
+[timestart] 0
+[size] 1931 1126
+[pos] 249 189
+*-23.000000 17000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[treeopen] tb.core.
+[sst_width] 206
+[signals_width] 339
+[sst_expanded] 1
+[sst_vpaned_height] 331
+@28
+tb.clk
+tb.rst
+@200
+-WBi
+@28
+tb.wb_i_cyc
+tb.wb_i_stb
+@22
+tb.wb_i_adr[31:0]
+@28
+tb.wb_i_ack
+@22
+tb.wb_i_dat_miso[63:0]
+@200
+-WBd
+@28
+tb.wb_d_cyc
+tb.wb_d_stb
+@22
+tb.wb_d_adr[31:0]
+@28
+tb.wb_d_ack
+@22
+tb.wb_d_dat_miso[63:0]
+@28
+tb.wb_d_we
+@22
+tb.wb_d_sel[7:0]
+tb.wb_d_dat_mosi[63:0]
+@200
+-SPR
+@22
+tb.core.msr[63:0]
+tb.core.cr_file_0.crs[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
