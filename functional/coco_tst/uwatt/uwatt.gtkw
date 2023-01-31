@@ -1,21 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Thu Dec 15 01:07:16 2022
+[*] Tue Jan 31 19:39:02 2023
 [*]
 [dumpfile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.fst"
-[dumpfile_mtime] "Thu Dec 15 00:47:51 2022"
-[dumpfile_size] 12538
+[dumpfile_mtime] "Tue Jan 31 19:38:22 2023"
+[dumpfile_size] 15350
 [savefile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.gtkw"
 [timestart] 0
-[size] 1931 1126
-[pos] 249 189
-*-23.000000 17000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 2169 1124
+[pos] 354 121
+*-24.000000 43036000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.core.
 [sst_width] 206
-[signals_width] 339
+[signals_width] 182
 [sst_expanded] 1
-[sst_vpaned_height] 331
+[sst_vpaned_height] 374
 @28
 tb.clk
 tb.rst
@@ -51,5 +51,40 @@ tb.wb_d_dat_mosi[63:0]
 @22
 tb.core.msr[63:0]
 tb.core.cr_file_0.crs[31:0]
+@28
+tb.core.decode2_0.gpr_a_read_valid
+@22
+tb.core.decode2_0.gpr_a_read[6:0]
+@28
+tb.core.decode2_0.gpr_b_read_valid
+@22
+tb.core.decode2_0.gpr_b_read[6:0]
+@28
+tb.core.decode2_0.gpr_c_read_valid
+@22
+tb.core.decode2_0.gpr_c_read[6:0]
+@200
+-FETCH
+@28
+tb.core.fetch1_0.advance_nia
+tb.core.fetch1_0.flush_in
+tb.core.fetch1_0.stall_in
+@200
+-EXECUTE
+@28
+tb.core.execute1_0.valid_in
+@22
+tb.core.execute1_0.next_nia[63:0]
+@200
+-WB
+@28
+tb.core.execute1_0.valid_in
+@23
+tb.core.execute1_0.wtf_cia[63:0]
+@28
+tb.core.register_file_0.wtf_reg_w_enb
+@22
+tb.core.register_file_0.wtf_reg_w_adr[6:0]
+tb.core.register_file_0.wtf_reg_w_dat[63:0]
 [pattern_trace] 1
 [pattern_trace] 0

@@ -20,7 +20,7 @@ from OPV.env import OPEnv
 # ------------------------------------------------------------------------------------------------
 # Tasks
 
-# assumes adr's are 31:2
+# 64LE
 async def WBDriver(self, traceReq=False, traceRsp=False):
    """WB interface"""
    sim = self.sim
@@ -36,6 +36,7 @@ async def WBDriver(self, traceReq=False, traceRsp=False):
    adrPending = 0
    datPending = 0
    selPending = 0
+   burstCount = 0
 
    self.msg(me, f'Started.')
 
@@ -55,24 +56,28 @@ async def WBDriver(self, traceReq=False, traceRsp=False):
       if not sim.resetDone:
          continue
 
-      # needed to use setimmediatevalue here too, or rd ack was skewed; but then core saw it too early
-      # setting .value=1 here is visible to core on next rising clk; so need to account for that in 'pending'
-      if rdPending:
-         # check cycPending to delay
+      if rdPending and cycPending <= sim.cycle:
          signals.ack.value = 1
          dat = sim.mem.read(int(adrPending))
-         dat = (dat << 32) | sim.mem.read(int(adrPending)+4)
+         dat = sim.mem.read(int(adrPending)+4) << 32 | dat
          signals.dati.value = dat
-         rdPending = False
+         burstCount += 1
+         if burstCount == 8:
+            rdPending = False
+            burstCount = 0
+         else:
+            adrPending += 8
          if traceRsp:
             self.msg(me, f'Rd Data:{dat:016X}')
-      elif wrPending:
+      elif wrPending and cycPending <= sim.cycle:
          signals.ack.value = 1
-         sim.mem.write(int(adrPending), datPending >> 32, selPending >> 4)
-         sim.mem.write(int(adrPending) + 4, datPending & 0xFFFFFFFF, selPending & 0xF)
+         sim.mem.write(int(adrPending) + 4, datPending >> 32, selPending >> 4)
+         sim.mem.write(int(adrPending), datPending & 0xFFFFFFFF, selPending & 0xF)
          wrPending = False
          if traceRsp:
             self.msg(me, f'Wr Data:{datPending:016X} Sel:{selPending:02X}')
+      elif rdPending or wrPending:
+         pass
       elif signals.ack.value == 1:
          signals.ack.value = 0
       elif signals.cyc.value == 1 and signals.stb.value == 1:

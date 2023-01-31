@@ -75,16 +75,18 @@ async def UWattMonitor(self):
 
    # could define these in main core as access methods
 
-   '''
+
    # completion
-   wbComp = root.writeBack_arbitration_isFiring
-   wbPC = root.writeBack_PC
+   # wtf think this is missing excp on current op
+   wbComp = root.execute1_0.valid_in
+   wbPC = root.execute1_0.wtf_cia
 
    # GPR
    gpr = []
    for i in range(32):
-      gpr.append(root.RegFilePluginComp_regFile.loc[i].dat)
+      gpr.append(int(root.register_file_0.registers[i].value))
 
+   '''
    # SPR
    facs = DotMap({
       'cr': root.execute_BranchPlugin_CR,
@@ -115,6 +117,7 @@ async def UWattMonitor(self):
       )
    })
    '''
+
    lastComp = ''
    lastCompCycle = 0
    lastStack = ''
@@ -138,7 +141,7 @@ async def UWattMonitor(self):
       if printf != lastPrintf:
          sim.msg('Print buffer:\n' + printf)
          lastPrintf = printf
-
+      '''
       if wbComp.value == 1:
          iar = f'{int(wbPC.value):08X}'
          sim.msg(f'CP {iar}')
@@ -147,32 +150,32 @@ async def UWattMonitor(self):
 
          if iar == 0x0500:
             sim.msg(f'* External Interrupt')
-            sim.a2p.intExtCount += 1
+            sim.core.intExtCount += 1
 
          if iar == 0x0900:
             sim.msg(f'* Decrementer Interrupt')
-            sim.a2p.intDecCount += 1
+            sim.core.intDecCount += 1
 
-         if sim.running and sim.a2p.iarPass is not None:
-            if iar == sim.a2p.iarPass:
-               sim.msg(f'Passing IAR detected: {sim.a2p.iarPass:08X}')
-               if sim.a2p.intDecCount > 0:
-                  sim.msg(f'Decrementer Interrupts: {sim.a2p.intDecCount}')
-               if sim.a2p.intExtCount > 0:
-                  sim.msg(f'External Interrupts: {sim.a2p.intExtCount}')
+         if sim.running and sim.core.iarPass is not None:
+            if iar == sim.core.iarPass:
+               sim.msg(f'Passing IAR detected: {sim.core.iarPass:08X}')
+               if sim.core.intDecCount > 0:
+                  sim.msg(f'Decrementer Interrupts: {sim.core.intDecCount}')
+               if sim.core.intExtCount > 0:
+                  sim.msg(f'External Interrupts: {sim.core.intExtCount}')
                sim.running = False
 
-         if sim.running and sim.a2p.iarFail is not None:
-            if iar == sim.a2p.iarFail:
+         if sim.running and sim.core.iarFail is not None:
+            if iar == sim.core.iarFail:
                sim.ok = False
                sim.fail = 'Failing IAR detected'
                sim.running = False
                break
 
-         if sim.running and sim.a2p.stopOnLoop is not None and sim.a2p.stopOnLoop > 0:
+         if sim.running and sim.core.stopOnLoop is not None and sim.core.stopOnLoop > 0:
             if iar == lastComp:
                lastCompCount += 1
-               if lastCompCount == sim.a2p.stopOnLoop:
+               if lastCompCount == sim.core.stopOnLoop:
                   sim.ok = False
                   sim.fail = 'Code hang detected'
                   sim.running = False
@@ -181,28 +184,31 @@ async def UWattMonitor(self):
                lastCompCount = 0
                lastComp = iar
       else:
-         if sim.running and sim.a2p.stopOnHang != 0 and sim.cycle - lastCompCycle > sim.a2p.stopOnHang:
+         if sim.running and sim.core.stopOnHang != 0 and sim.cycle - lastCompCycle > sim.core.stopOnHang:
             sim.ok = False
-            sim.fail = f'No completion in {sim.a2p.stopOnHang} cycles; last CP={lastComp:08X}'
+            sim.fail = f'No completion in {sim.core.stopOnHang} cycles; last CP={lastComp:08X}'
             sim.running = False
             break
 
-      # this can also be used to trace op-by-op expects
-      if sim.a2p.traceFacUpdates:
-         if root.lastStageRegFileWrite_valid.value == 1:
+      if sim.core.traceFacUpdates:
+         # missing wtf_reg_w_enb for some reason
+         for adr in range(32):
+            dat = int(root.register_file_0.registers[adr].value)
+            if dat != self.facs.gpr[adr]:
+               sim.msg(f'R{adr:02d}={dat:08X}')
+               self.facs.gpr[adr] = dat
+
+         if root.register_file_0.wtf_reg_w_enb.value == 1:
             # could shadow here too
-            adr = root.lastStageRegFileWrite_payload_address.value.integer
-            dat = root.lastStageRegFileWrite_payload_data.value.integer
-            sim.msg(f'R{adr:02d}={dat:08X}')
-            self.facs.gpr[adr] = dat
-         if root.UpdateRegFileWrite_valid.value == 1:
-            adr = root.UpdateRegFileWrite_payload_address.value.integer
-            dat = root.UpdateRegFileWrite_payload_data.value.integer
+            adr = root.register_file_0.wtf_reg_w_adr.value.integer
+            dat = root.register_file_0.wtf_reg_w_dat.value.integer
             sim.msg(f'R{adr:02d}={dat:08X}')
             self.facs.gpr[adr] = dat
 
       if wbComp.value == 1:
 
+         pass
+         '''
          # in most cases spr's won't display with completion unless handled specially
          check = ['cr', 'ctr', 'lr', 'tar']
 
@@ -236,7 +242,8 @@ async def UWattMonitor(self):
             if v != self.facs[f]:
                self.facs[f] = v
                sim.msg(f'{f.upper()}={v:08X}')
-      '''
+         '''
+
    sim.msg(f'{me}: ended.')
 
 # ------------------------------------------------------------------------------------------------
@@ -266,6 +273,24 @@ class UWatt(DotMap):
       self.intExtCount = 0
       self.config =  DotMap({
       })
+      # addresses for spr's stored in regfile
+      # doesn't include cr, dar, dsisr, dec, tb
+      self.sprs = {
+         'LR': 32,
+         'CTR': 33,
+         'SRR0': 34,
+         'SRR1': 35,
+         'HSRR0': 36,
+         'HSRR1': 37,
+         'SPRG0': 38,
+         'SPRG1': 39,
+         'SPRG2': 40,
+         'SPRG3': 41,
+         'HSPRG0': 42,
+         'HSPRG1' : 43,
+         'XER': 44,
+         'TAR': 45,
+      }
       # implemented facs for shadowing
       self.facs = DotMap({
          'gpr': [0] * 32,
@@ -310,52 +335,57 @@ class UWatt(DotMap):
       await cocotb.start(self.checker(self))
       await cocotb.start(self.monitor(self))
 
+   async def writeRF(self, n, v):
+      # sim side door
+      self.root.register_file_0.wtf_reg_w_enb.value = 1
+      self.root.register_file_0.wtf_reg_w_adr.value = n
+      self.root.register_file_0.wtf_reg_w_dat.value = v
+      await Timer(1, units='ps')
+      self.root.register_file_0.wtf_reg_w_enb.value = 0
+      await Timer(1, units='ps')
+      assert self.root.register_file_0.registers[n].value == v, 'writeRF() failed'
+
    # should be part of CoreFacilities() - then here sets up implementation-specific accessors for arch features
-   def loadTst(self, tst):
+   async def loadTst(self, tst):
 
       self.tst = tst
       self.xerMask = 0xE00000FF
       reject = False
-
-      '''
+      sprs = self.sprs
       # if want to init
       #for i in range(32):
       #   self.root.RegFilePluginComp_regFile.regFile[i].setimmediatevalue(0)
       for r in tst.inits.regs:
          if r.id < 32:           # GPR
-            self.root.RegFilePluginComp_regFile.regFile[r.id].setimmediatevalue(int(r.val[8:],16))
-            self.facs.gpr[r.id] = int(r.val[8:],16)
+            await self.writeRF(r.id, int(r.val, 16))
+            self.facs.gpr[r.id] = int(r.val,16)
          elif r.id == 0xE000:
-            self.root.execute_BranchPlugin_CR.value = int(r.val, 16)
+            self.root.cr_file_0.crs.value = int(r.val, 16)
             self.facs.cr = int(r.val,16)
          # rfi to test: load srr0/srr1 instead of pc/msr
          elif r.id == 0xE001:
-            self.root.SPRPlugin_srr1.value = int(r.val[8:], 16)
-            self.facs.srr1 = int(r.val[8:],16)
+            await self.writeRF(sprs['SRR1'], int(r.val, 16))
+            self.facs.srr1 = int(r.val,16)
          elif r.id == 0xE002:
-            self.root.SPRPlugin_srr0.value = int(r.val[8:], 16)
-            iar = r.val[8:]
+            await self.writeRF(sprs['SRR0'], int(r.val, 16))
+            self.facs.srr0 = int(r.val,16)
          elif r.id == 0xF001:
-            # xer needs massaging for 32b
-            # 0:2 (so/ov/ca) are side-effects and must be checked
-            v = int(r.val[8:], 16) & self.xerMask
-            self.sim.msg(f'* 32b XER adjust: {int(r.val[8:], 16):08X}->{v:08X}')
-            self.root.execute_IntAluPluginComp_XER.value = v
-            self.facs.xer = v
+            await self.writeRF(sprs['XER'], int(r.val, 16))
+            self.facs.xer = int(r.val, 16)
          elif r.id == 0xF008:
-            self.root.execute_BranchPlugin_LR.value = int(r.val[8:], 16)
-            self.facs.lr = int(r.val[8:],16)
+            await self.writeRF(sprs['LR'], int(r.val, 16))
+            self.facs.lr = int(r.val, 16)
          elif r.id == 0xF009:
-            self.root.execute_BranchPlugin_CTR.value = int(r.val[8:], 16)
-            self.facs.ctr = int(r.val[8:],16)
+            await self.writeRF(sprs['CTR'], int(r.val, 16))
+            self.facs.ctr = int(r.val, 16)
          elif r.id == 0xF012:
-            self.root.SPRPlugin_dsisr.value = int(r.val, 16)
+            #self.root.SPRPlugin_dsisr.value = int(r.val, 16)
             self.facs.dsisr = int(r.val,16)
          elif r.id == 0xF013:
-            self.root.SPRPlugin_dar.value = int(r.val[8:], 16)
+            #self.root.SPRPlugin_dar.value = int(r.val[8:], 16)
             self.facs.dar = int(r.val[8:],16)
          elif r.id == 0xF016:
-            self.root.SPRPlugin_dec.value = int(r.val, 16)
+            #self.root.SPRPlugin_dec.value = int(r.val, 16)
             self.facs.dec = int(r.val,16)
          elif r.id == 0xF01A:
             #self.root.SPRPlugin_srr0.value = int(r.val[8:], 16)
@@ -364,11 +394,11 @@ class UWatt(DotMap):
             #self.root.SPRPlugin_srr1.value = int(r.val[8:], 16)
             pass
          elif r.id == 0xF32F:
-            self.root.execute_BranchPlugin_TAR.value = int(r.val[8:], 16)
-            self.facs.tar = int(r.val[8:],16)
+            await self.writeRF(sprs['TAR'], int(r.val, 16))
+            self.facs.tar = int(r.val, 16)
          else:
-            assert False, f'A2P.loadTst(): got unhandled reg init: {r.id:04X}={r.val}'
-      '''
+            assert False, f'uwatt.loadTst(): got unhandled reg init: {r.id:04X}={r.val}'
+
       for m in tst.inits.mem:
 
          ea = int(m.ea, 16)
@@ -398,7 +428,7 @@ class UWatt(DotMap):
                   rejectMsg = f'IAR out of range: {iar:016X} [{lo:016X}:{hi:016X}]'
                   break
          if not reject:
-            self.sim.mem.write(iar, int(op.opcode, 16))
+            self.sim.mem.write(iar, int(op.opcode, 16), le=True)
             if self.tstStartIAR is None:
                self.tstStartIAR = iar
             self.tstEndIAR = iar
@@ -408,7 +438,7 @@ class UWatt(DotMap):
       if not reject:
 
          # insert eot op in epilogue
-         self.sim.mem.write(self.tstEndIAR, 0x48000000)
+         self.sim.mem.write(self.tstEndIAR, 0x48000000, le=True)
          self.sim.msg(f'Loaded tst {tst.name}: Starting IAR:{self.tstStartIAR:08X} Ending IAR:{self.tstEndIAR:08X}')
 
          # set dec if allowed

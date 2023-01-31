@@ -32,7 +32,10 @@ MODULE = tb
 TESTCASE = tb
 
 EXTRA_ARGS = --std=08
-SIM_ARGS = --vcd=uwatt.vcd --assert-level=failure --ieee-asserts=disable
+#WAVE_FILE ?= --vcd=uwatt.vcd
+WAVE_FILE ?= --wave=uwatt.ghw
+
+SIM_ARGS = $(WAVE_FILE) --assert-level=failure --ieee-asserts=disable --vcd=uwatt.vcd
 
 # cocotb make rules
 include $(shell cocotb-config --makefiles)/Makefile.sim

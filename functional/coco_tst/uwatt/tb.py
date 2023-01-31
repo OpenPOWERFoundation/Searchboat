@@ -131,7 +131,7 @@ async def scom(sim):
 # ------------------------------------------------------------------------------------------------
 # Tst Runner
 
-async def run_tst(sim, parser, pick):
+async def run_tst(sim, parser, pick, printFailTst=True):
 
    tst = parser.test(pick)
 
@@ -167,28 +167,29 @@ async def run_tst(sim, parser, pick):
    sim.mem.clear()
 
    # tst setup - could do with mem file load
-   sim.mem.logStores = False
-   sim.mem.write(0x0000, 0x4C000024)            # rfid to tst
-   sim.mem.write(0x0004, 0x48000000)            # iarFail
-   sim.mem.write(0x0100, 0x48000006)
-   sim.mem.write(0x0200, 0x48000006)
-   sim.mem.write(0x0300, 0x48000006)
-   sim.mem.write(0x0400, 0x48000006)
-   sim.mem.write(0x0500, 0x48000006)
-   sim.mem.write(0x0600, 0x48000006)
-   sim.mem.write(0x0700, 0x48000006)
-   sim.mem.write(0x0800, 0x48000006)
+   # wtf why? memory intf does it??
+   swizzle = False
+   sim.mem.write(0x0000, 0x4C000024, le=swizzle)      # rfid to tst
+   sim.mem.write(0x0004, 0x48000000, le=swizzle)      # iarFail
+   sim.mem.write(0x0100, 0x48000006, le=swizzle)
+   sim.mem.write(0x0200, 0x48000006, le=swizzle)
+   sim.mem.write(0x0300, 0x48000006, le=swizzle)
+   sim.mem.write(0x0400, 0x48000006, le=swizzle)
+   sim.mem.write(0x0500, 0x48000006, le=swizzle)
+   sim.mem.write(0x0600, 0x48000006, le=swizzle)
+   sim.mem.write(0x0700, 0x48000006, le=swizzle)
+   sim.mem.write(0x0800, 0x48000006, le=swizzle)
    if sim.allowDec:
-      sim.mem.write(0x0900, 0x7c0343a6)         # mtspr sprg3,r0
+      sim.mem.write(0x0900, 0x7c0343a6, le=swizzle)         # mtspr sprg3,r0
       dec = randint(50, 150)
-      sim.mem.write(0x0904, 0x38000000 | dec)   # li r0, xxxx
-      sim.mem.write(0x0908, 0x7c1603a6)         # mtdec r0
-      sim.mem.write(0x090C, 0x7c0342a6)         # mfspr r0,sprg3
-      sim.mem.write(0x0910, 0x4C000024)         # rfid
+      sim.mem.write(0x0904, 0x38000000 | dec, le=swizzle)   # li r0, xxxx
+      sim.mem.write(0x0908, 0x7c1603a6, le=swizzle)         # mtdec r0
+      sim.mem.write(0x090C, 0x7c0342a6, le=swizzle)         # mfspr r0,sprg3
+      sim.mem.write(0x0910, 0x4C000024, le=swizzle)         # rfid
    else:
-      sim.mem.write(0x0900, 0x48000006)
+      sim.mem.write(0x0900, 0x48000006, le=swizzle)
 
-   reject = not sim.core.loadTst(tst)
+   reject = not await sim.core.loadTst(tst)
 
    if not reject:
 
@@ -241,8 +242,9 @@ async def run_tst(sim, parser, pick):
          sim.msg(f'You are worthless and weak!')
          sim.msg(f'{sim.fail}')
          sim.msg(f'Test:\n')
-         print(tst)
-         print(parser.read(tst.id))
+         if printFailTst:
+            print(tst)
+            print(parser.read(tst.id))
       f.close()
 
    return sim.ok, reject
@@ -315,6 +317,17 @@ async def tb(dut):
 
    # config stuff
    await config(sim)
+
+   sim.mem.logStores = False
+   #wtf trying to get mem to write
+   #n = 5
+   #v = 8675309
+   #sim.dut.test_mem[n].setimmediatevalue(v)
+   #sim.dut.test_mem[n].value = v
+   #await RisingEdge(sim.sigClk)
+   #await Timer(10000, units='ns')
+   #print('wtf', n, v, sim.dut.test_mem[n].value)
+   #assert sim.dut.test_mem[n].value == v, 'writeRF() failed'
 
    # ignore PTE, etc. in tst init/check
    sim.ignoreMem = [(0x00080000, 0xFFFFFFFFFFFFFFFF)]
@@ -390,8 +403,12 @@ async def tb(dut):
          pick = randint(0, numTsts-1)
       tst = parser.test(pick)
       assert tst != None, f'No tst found matching "{pick}"'
+      #await run_tst(sim, parser, pick, printFailTst=False)  # testing uwatt
       await run_tst(sim, parser, pick)
       runTsts = 1
+      # testing uwatt
+      print(tst)
+      print(parser.read(tst.id))
 
    if args.all:
       s = 's' if runTsts > 1 else ''

@@ -80,6 +80,11 @@ signal wishbone_dcore_in   : wishbone_slave_out;
 signal wishbone_dcore_out  : wishbone_master_out;
 signal snoop_in            : wishbone_master_out;
 
+--wtf test mem to see if it loads from py
+TYPE WORD is array(0 to 63) of std_logic;
+TYPE MEM is array(0 to 31) of WORD;
+SIGNAL test_mem : MEM;
+
 begin
 
    wb_i_CYC <= wishbone_icore_out.cyc;
@@ -136,3 +141,4 @@ begin
 	);
 
 end architecture tb;
+

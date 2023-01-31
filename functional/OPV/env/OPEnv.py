@@ -133,8 +133,7 @@ class Memory(DotMap):
          return self.default
 
    # word-aligned byte address + data
-   #wtf either here or caller have to handle endian!
-   def write(self, addr, data, be=None):
+   def write(self, addr, data, be=None, le=False):
       try:
          addr = addr + 0
       except:
@@ -158,6 +157,11 @@ class Memory(DotMap):
             if be[i] == '1':
                mask += 0xFF
          data = (self.read(addr) & ~mask) | (data & mask)
+
+      if le:
+         d = f'{data:08X}'
+         d = d[6:8] + d[4:6] + d[2:4] + d[0:2]
+         data = int(d, 16)
 
       if self.logStores:
          if addr not in self.data:
