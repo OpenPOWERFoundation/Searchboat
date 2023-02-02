@@ -93,7 +93,7 @@ async def genClocks(sim, cycles=None, fail=True):
    """Generate clocks """
 
    sim.clk1x = Clock(sim.sigClk, 1, 'ns')
-   await cocotb.start(sim.clk1x.start(cycles=cycles))
+   runningClk = await cocotb.start(sim.clk1x.start(cycles=cycles))
 
    if cycles is None:
       runCycles = sim.maxCycles
@@ -104,6 +104,8 @@ async def genClocks(sim, cycles=None, fail=True):
 
       if sim.stopClocks is not None and sim.stopClocks:
          fail = False
+         sim.sigClk.value = 0
+         runningClk.kill()
          break
 
       if sim.idle is None or not sim.idle:
@@ -138,8 +140,12 @@ async def run_tst(sim, parser, pick, printFailTst=True):
    # start clocks,reset
    # tst uses manual
    sim.stopClocks = True
+   sim.resetDone = False
+
    while sim.running:
       await RisingEdge(sim.sigClk)
+
+   sim.core.traceFacUpdates = False  # or need to quiesce more when passing iar found
 
    if not sim.manualReset:
       await cocotb.start(genClocks(sim))
@@ -151,10 +157,18 @@ async def run_tst(sim, parser, pick, printFailTst=True):
          assert False, sim.fail
    else:
       sim.sigRst.value = 1
+
       sim.sigClk.value = 0
       await Timer(1, units='ns')
       sim.sigClk.value = 1
       await Timer(1, units='ns')
+      #wtf uwatt needs a 2nd cycle for some reason; latched resets?
+      # make manual reset a core call
+      sim.sigClk.value = 0
+      await Timer(1, units='ns')
+      sim.sigClk.value = 1
+      await Timer(1, units='ns')
+
       sim.sigRst.value = 0
       sim.sigClk.value = 0
       await Timer(1, units='ns')
@@ -167,7 +181,6 @@ async def run_tst(sim, parser, pick, printFailTst=True):
    sim.mem.clear()
 
    # tst setup - could do with mem file load
-   # wtf why? memory intf does it??
    swizzle = False
    sim.mem.write(0x0000, 0x4C000024, le=swizzle)      # rfid to tst
    sim.mem.write(0x0004, 0x48000000, le=swizzle)      # iarFail
@@ -202,10 +215,13 @@ async def run_tst(sim, parser, pick, printFailTst=True):
 
       sim.core.iarPass = sim.core.tstEndIAR
       sim.core.iarFail = 0x0004
+      sim.ok = True
+      sim.fail = None
 
       # start clocks
       sim.stopClocks = False
       sim.running = True
+      sim.core.traceFacUpdates = True
       await cocotb.start(genClocks(sim))
 
       # ...zzz....
@@ -243,7 +259,7 @@ async def run_tst(sim, parser, pick, printFailTst=True):
          sim.msg(f'{sim.fail}')
          sim.msg(f'Test:\n')
          if printFailTst:
-            print(tst)
+            #print(tst)
             print(parser.read(tst.id))
       f.close()
 
@@ -319,15 +335,6 @@ async def tb(dut):
    await config(sim)
 
    sim.mem.logStores = False
-   #wtf trying to get mem to write
-   #n = 5
-   #v = 8675309
-   #sim.dut.test_mem[n].setimmediatevalue(v)
-   #sim.dut.test_mem[n].value = v
-   #await RisingEdge(sim.sigClk)
-   #await Timer(10000, units='ns')
-   #print('wtf', n, v, sim.dut.test_mem[n].value)
-   #assert sim.dut.test_mem[n].value == v, 'writeRF() failed'
 
    # ignore PTE, etc. in tst init/check
    sim.ignoreMem = [(0x00080000, 0xFFFFFFFFFFFFFFFF)]
@@ -407,8 +414,8 @@ async def tb(dut):
       await run_tst(sim, parser, pick)
       runTsts = 1
       # testing uwatt
-      print(tst)
-      print(parser.read(tst.id))
+      #print(tst)
+      #print(parser.read(tst.id))
 
    if args.all:
       s = 's' if runTsts > 1 else ''
