@@ -98,7 +98,7 @@ async def genClocks(sim, cycles=None, fail=True):
    """Generate clocks """
 
    sim.clk1x = Clock(sim.sigClk, 1, 'ns')
-   await cocotb.start(sim.clk1x.start(cycles=cycles))
+   runningClk = await cocotb.start(sim.clk1x.start(cycles=cycles))
 
    if cycles is None:
       runCycles = sim.maxCycles
@@ -109,6 +109,9 @@ async def genClocks(sim, cycles=None, fail=True):
 
       if sim.stopClocks is not None and sim.stopClocks:
          fail = False
+         # added for uwatt but causing miscompares in 2nd tst in succession - something requires clk during init?
+         #sim.sigClk.value = 0
+         #runningClk.kill()
          break
 
       if sim.idle is None or not sim.idle:
@@ -136,15 +139,19 @@ async def scom(sim):
 # ------------------------------------------------------------------------------------------------
 # Tst Runner
 
-async def run_tst(sim, parser, pick):
+async def run_tst(sim, parser, pick, printFailTst=True):
 
    tst = parser.test(pick)
 
    # start clocks,reset
    # tst uses manual
    sim.stopClocks = True
+   sim.resetDone = False
+
    while sim.running:
       await RisingEdge(sim.sigClk)
+
+   sim.a2p.traceFacUpdates = False  # or need to quiesce more when passing iar found
 
    if not sim.manualReset:
       await cocotb.start(genClocks(sim))
@@ -156,6 +163,7 @@ async def run_tst(sim, parser, pick):
          assert False, sim.fail
    else:
       sim.sigRst.value = 1
+
       sim.sigClk.value = 0
       await Timer(1, units='ns')
       sim.sigClk.value = 1
@@ -172,7 +180,6 @@ async def run_tst(sim, parser, pick):
    sim.mem.clear()
 
    # tst setup - could do with mem file load
-   sim.mem.logStores = False
    sim.mem.write(0x0000, 0x4C000064)      # rfi to tst
    sim.mem.write(0x0004, 0x48000000)      # iarFail
    sim.mem.write(0x0100, 0x48000006)
@@ -206,10 +213,12 @@ async def run_tst(sim, parser, pick):
 
       sim.a2p.iarPass = sim.a2p.tstEndIAR
       sim.a2p.iarFail = 0x0004
-
+      sim.ok = True
+      sim.fail = None
       # start clocks
       sim.stopClocks = False
       sim.running = True
+      sim.a2p.traceFacUpdates = True
       await cocotb.start(genClocks(sim))
 
       # ...zzz....
@@ -246,7 +255,9 @@ async def run_tst(sim, parser, pick):
          sim.msg(f'You are worthless and weak!')
          sim.msg(f'{sim.fail}')
          sim.msg(f'Test:\n')
-         print(parser.read(tst.id))
+         if printFailTst:
+            #print(tst)
+            print(parser.read(tst.id))
       f.close()
 
    return sim.ok, reject
@@ -314,6 +325,8 @@ async def tb(dut):
 
    # config stuff
    await config(sim)
+
+   sim.mem.logStores = False
 
    # ignore PTE, etc. in tst init/check
    sim.ignoreMem = [(0x00080000, 0xFFFFFFFFFFFFFFFF)]

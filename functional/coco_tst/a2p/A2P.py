@@ -80,9 +80,9 @@ async def A2PMonitor(self):
    wbPC = root.writeBack_PC
 
    # GPR
-   gpr = []
-   for i in range(32):
-      gpr.append(root.RegFilePluginComp_regFile.loc[i].dat)
+   #gpr = []
+   #for i in range(32):
+   #   gpr.append(root.RegFilePluginComp_regFile.loc[i].dat)
 
    # SPR
    facs = DotMap({
@@ -367,6 +367,7 @@ class A2P(DotMap):
          else:
             assert False, f'A2P.loadTst(): got unhandled reg init: {r.id:04X}={r.val}'
 
+      self.sim.mem.logStores = True
       for m in tst.inits.mem:
 
          ea = int(m.ea, 16)

@@ -1,0 +1,497 @@
+rm -f results.xml
+make -f Makefile results.xml
+make[1]: Entering directory '/data/projects/Searchboat/functional/coco_tst/a2p'
+rm -f results.xml
+MODULE=tb TESTCASE=tb TOPLEVEL=tb TOPLEVEL_LANG=verilog \
+         /usr/local/bin/vvp -M /home/wtf/.local/lib/python3.10/site-packages/cocotb/libs -m libcocotbvpi_icarus   build_a2p/sim.vvp 
+     -.--ns INFO     gpi                                ..mbed/gpi_embed.cpp:76   in set_program_name_in_venv        Did not detect Python virtual environment. Using system-wide Python interpreter
+     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:101  in gpi_print_registered_impl       VPI registered
+     0.00ns INFO     cocotb                             Running on Icarus Verilog version 12.0 (devel)
+     0.00ns INFO     cocotb                             Running tests with cocotb v1.7.1 from /home/wtf/.local/lib/python3.10/site-packages/cocotb
+     0.00ns INFO     cocotb                             Seeding Python random module with 1675439985
+     0.00ns INFO     cocotb.regression                  Found test tb.tb
+     0.00ns INFO     cocotb.regression                  running tb (1/1)
+                                                          A Vulgar Display of OpenPower
+     0.00ns INFO     cocotb.tb                          [00000000] Set threads=1.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Driver [WBI]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Checker [WBI]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Monitor [WBI]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Driver [WBD]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Checker [WBD]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] WB Monitor [WBD]: Started.
+     9.00ns INFO     cocotb.tb                          [00000000] A2P Driver: started.
+     9.00ns INFO     cocotb.tb                          [00000000] A2P Checker: started.
+     9.00ns INFO     cocotb.tb                          [00000000] A2P Monitor: started.
+     9.00ns INFO     cocotb.tb                          [00000000] Parsed 500 tests from /data/projects/Searchboat/functional/coco_tst/a2p/tst/bringup/32BE/fx_alucmp_10x500_2022_1204_1450.tst.
+     9.00ns INFO     cocotb.tb                          [00000000] 
+                                                        
+                                                        
+     9.00ns INFO     cocotb.tb                          [00000000] Running 1 of 500...
+    12.00ns INFO     cocotb.tb                          [00000000] Manually reset core.
+    12.00ns INFO     cocotb.tb                          [00000000] * 32b XER adjust: 8BE0003D->8000003D
+    12.00ns INFO     cocotb.tb                          [00000000] Skipping: 00055768E66FFF30
+    12.00ns INFO     cocotb.tb                          [00000000] Skipping: 0005ECCCBDF60190
+    12.00ns INFO     cocotb.tb                          [00000000] Skipping: 0005ECCCBDF60198
+    12.00ns INFO     cocotb.tb                          [00000000] Skipping: 00358AFD0A3886B8
+    12.00ns INFO     cocotb.tb                          [00000000] Skipping: 00732C69A504CD90
+    12.00ns INFO     cocotb.tb                          [00000000] Loaded tst 1001: Starting IAR:00010000 Ending IAR:00010028
+    12.00ns INFO     cocotb.tb                          [00000000] Running tst; seed=1675439985.
+    51.00ns INFO     cocotb.tb                          [00000039] CP 00000000
+    85.00ns INFO     cocotb.tb                          [00000073] CP 00010000
+    85.00ns INFO     cocotb.tb                          [00000073] R27=0C504100
+    86.00ns INFO     cocotb.tb                          [00000074] CP 00010004
+    86.00ns INFO     cocotb.tb                          [00000074] R09=236BCE62
+    86.00ns INFO     cocotb.tb                          [00000074] XER=A000003D
+    89.00ns INFO     cocotb.tb                          [00000077] CP 00010008
+    89.00ns INFO     cocotb.tb                          [00000077] R21=80000001
+    89.00ns INFO     cocotb.tb                          [00000077] XER=A000003D
+    89.00ns INFO     cocotb.tb                          [00000077] CR=532108B2
+    90.00ns INFO     cocotb.tb                          [00000078] CP 0001000C
+    90.00ns INFO     cocotb.tb                          [00000078] R30=C12657D7
+    90.00ns INFO     cocotb.tb                          [00000078] XER=C000003D
+    90.00ns INFO     cocotb.tb                          [00000078] CR=932108B2
+    93.00ns INFO     cocotb.tb                          [00000081] CP 00010010
+    93.00ns INFO     cocotb.tb                          [00000081] R09=00000000
+    94.00ns INFO     cocotb.tb                          [00000082] CP 00010014
+    94.00ns INFO     cocotb.tb                          [00000082] R29=4C3B2527
+    94.00ns INFO     cocotb.tb                          [00000082] CR=332108B2
+    95.00ns INFO     cocotb.tb                          [00000083] CP 00010018
+    95.00ns INFO     cocotb.tb                          [00000083] R03=00000000
+    96.00ns INFO     cocotb.tb                          [00000084] CP 0001001C
+    96.00ns INFO     cocotb.tb                          [00000084] R09=3ED9A828
+    96.00ns INFO     cocotb.tb                          [00000084] XER=8000003D
+   111.00ns INFO     cocotb.tb                          [00000100] ...tick...
+   125.00ns INFO     cocotb.tb                          [00000113] CP 00010020
+   125.00ns INFO     cocotb.tb                          [00000113] R12=80000000
+   125.00ns INFO     cocotb.tb                          [00000113] XER=A000003D
+   125.00ns INFO     cocotb.tb                          [00000113] CR=532108B2
+   128.00ns INFO     cocotb.tb                          [00000116] CP 00010024
+   129.00ns INFO     cocotb.tb                          [00000117] CP 00010028
+   129.00ns INFO     cocotb.tb                          [00000117] Passing IAR detected: 00010028
+   129.00ns INFO     cocotb.tb                          [00000117] CR=932108B2
+   133.00ns INFO     cocotb.tb                          [00000121] CP 00010028
+   137.00ns INFO     cocotb.tb                          [00000125] CP 00010028
+   139.00ns INFO     cocotb.tb                          [00000127] Checking results: Registers
+   139.00ns INFO     cocotb.tb                          [00000127] Checking results: Memory
+   139.00ns INFO     cocotb.tb                          [00000127] Skipping: 00055768E66FFF30
+   139.00ns INFO     cocotb.tb                          [00000127] Skipping: 0005ECCCBDF60190
+   139.00ns INFO     cocotb.tb                          [00000127] Skipping: 0005ECCCBDF60198
+   139.00ns INFO     cocotb.tb                          [00000127] Skipping: 00358AFD0A3886B8
+   139.00ns INFO     cocotb.tb                          [00000127] Skipping: 00732C69A504CD90
+   139.00ns INFO     cocotb.tb                          [00000127] 
+   139.00ns INFO     cocotb.tb                          [00000127] /data/projects/Searchboat/functional/coco_tst/a2p/tst/bringup/32BE/fx_alucmp_10x500_2022_1204_1450.tst
+   139.00ns INFO     cocotb.tb                          [00000127] 1001
+   139.00ns INFO     cocotb.tb                          [00000127] 
+   139.00ns INFO     cocotb.tb                          [00000127] You has opulence.
+   139.00ns INFO     cocotb.tb                          [00000127] 
+                                                        
+                                                        
+   139.00ns INFO     cocotb.tb                          [00000127] Running 2 of 500...
+   142.00ns INFO     cocotb.tb                          [00000127] Manually reset core.
+   142.00ns INFO     cocotb.tb                          [00000000] * 32b XER adjust: 4E50000A->4000000A
+   142.00ns INFO     cocotb.tb                          [00000000] Skipping: 0004D17886AFFFF0
+   142.00ns INFO     cocotb.tb                          [00000000] Skipping: 000556F51AB4B610
+   142.00ns INFO     cocotb.tb                          [00000000] Skipping: 000556F51AB4B618
+   142.00ns INFO     cocotb.tb                          [00000000] Skipping: 00A3E90851081E10
+   142.00ns INFO     cocotb.tb                          [00000000] Loaded tst 1002: Starting IAR:00010000 Ending IAR:00010028
+   142.00ns INFO     cocotb.tb                          [00000000] Running tst; seed=3350879971.
+   181.00ns INFO     cocotb.tb                          [00000039] CP 00000000
+   215.00ns INFO     cocotb.tb                          [00000073] CP 00010000
+   215.00ns INFO     cocotb.tb                          [00000073] R30=000002C8
+   215.00ns INFO     cocotb.tb                          [00000073] XER=6000000A
+   218.00ns INFO     cocotb.tb                          [00000076] CP 00010004
+   218.00ns INFO     cocotb.tb                          [00000076] R25=00005800
+   219.00ns INFO     cocotb.tb                          [00000077] CP 00010008
+   219.00ns INFO     cocotb.tb                          [00000077] R17=80000000
+   219.00ns INFO     cocotb.tb                          [00000077] XER=6000000A
+   222.00ns INFO     cocotb.tb                          [00000080] CP 0001000C
+   222.00ns INFO     cocotb.tb                          [00000080] R09=5E79142E
+   222.00ns INFO     cocotb.tb                          [00000080] XER=0000000A
+   225.00ns INFO     cocotb.tb                          [00000083] CP 00010010
+   225.00ns INFO     cocotb.tb                          [00000083] R01=F13307A0
+   225.00ns INFO     cocotb.tb                          [00000083] XER=0000000A
+   241.00ns INFO     cocotb.tb                          [00000100] ...tick...
+   280.00ns INFO     cocotb.tb                          [00000138] CP 00010014
+   280.00ns INFO     cocotb.tb                          [00000138] R21=69D2FAED
+   280.00ns INFO     cocotb.tb                          [00000138] XER=0000000A
+   280.00ns INFO     cocotb.tb                          [00000138] CR=829423DB
+   283.00ns INFO     cocotb.tb                          [00000141] CP 00010018
+   283.00ns INFO     cocotb.tb                          [00000141] R12=A186EBD1
+   283.00ns INFO     cocotb.tb                          [00000141] XER=0000000A
+   284.00ns INFO     cocotb.tb                          [00000142] CP 0001001C
+   284.00ns INFO     cocotb.tb                          [00000142] R09=C0000000
+   284.00ns INFO     cocotb.tb                          [00000142] XER=0000000A
+   341.00ns INFO     cocotb.tb                          [00000199] CP 00010020
+   341.00ns INFO     cocotb.tb                          [00000199] R14=0CC00840
+   341.00ns INFO     cocotb.tb                          [00000200] ...tick...
+   342.00ns INFO     cocotb.tb                          [00000200] CP 00010024
+   342.00ns INFO     cocotb.tb                          [00000200] R22=290DB42C
+   342.00ns INFO     cocotb.tb                          [00000200] XER=2000000A
+   343.00ns INFO     cocotb.tb                          [00000201] CP 00010028
+   343.00ns INFO     cocotb.tb                          [00000201] Passing IAR detected: 00010028
+   344.00ns INFO     cocotb.tb                          [00000202] CP 00010028
+   348.00ns INFO     cocotb.tb                          [00000206] CP 00010028
+   352.00ns INFO     cocotb.tb                          [00000210] CP 00010028
+   353.00ns INFO     cocotb.tb                          [00000211] Checking results: Registers
+   353.00ns INFO     cocotb.tb                          [00000211]    R21 exp=F15B201B act=69D2FAED
+   353.00ns INFO     cocotb.tb                          [00000211] Checking results: Memory
+   353.00ns INFO     cocotb.tb                          [00000211] Skipping: 0004D17886AFFFF0
+   353.00ns INFO     cocotb.tb                          [00000211] Skipping: 000556F51AB4B610
+   353.00ns INFO     cocotb.tb                          [00000211] Skipping: 000556F51AB4B618
+   353.00ns INFO     cocotb.tb                          [00000211] Skipping: 00A3E90851081E10
+   353.00ns INFO     cocotb.tb                          [00000211] 
+   353.00ns INFO     cocotb.tb                          [00000211] /data/projects/Searchboat/functional/coco_tst/a2p/tst/bringup/32BE/fx_alucmp_10x500_2022_1204_1450.tst
+   353.00ns INFO     cocotb.tb                          [00000211] 1002
+   353.00ns INFO     cocotb.tb                          [00000211] 
+   353.00ns INFO     cocotb.tb                          [00000211] You are worthless and weak!
+   353.00ns INFO     cocotb.tb                          [00000211] Miscompare: R21
+   353.00ns INFO     cocotb.tb                          [00000211] Test:
+                                                        
+TEST 1002
+INITIALIZATIONS: DATA MEMORY
+D 0004D17886AFFFF0 4001FFFFFF00000570000000C7203952 * PTE Match EPN=0x00000000 VPN=0x0007FFFFFC0 RPN=0x00000000 WIMG=0xA I TA=0
+D 000556F51AB4B610 5904D17886A8DBC1                 * Root Table Descriptor , Partition Table Primary Entry for LPID = 0xB61: HTABORG = 0x1641_345E_21AA, HTABSIZE = 0x01, PS = 0x6, Entry Address = 0x0005_56F5_1AB4_B610 WIMG=0x2
+D 000556F51AB4B618 0016B31D28DBB4A4                 * Segmentation On HPT, Process Table Descriptor, Partition Table Secondary Entry for LPID = 0xB61: PRTB = 0x00_0B59_8E94, PTS = 0x04, NUT = 0x0, PTPS = 0x5 WIMG=0x2
+D 00A3E90851081E10 400DFE7F5A0F8B02E1A945C4C2E28951 * Guest Root Table Descriptor, Process Table Entry for LPID = 0x000 STABORGU = 0x000D_FE7F_5A0F_8B02 STABORGL = 0xE STABSIZE = 0x5 B = 0x1 STPS = 0x0
+INITIALIZATIONS: INSTRUCTION MEMORY
+LEVEL 4 CHIP 0
+LEVEL 3 CORE 0
+INITIALIZATIONS: REGISTERS
+LEVEL 2 PARTITION 0
+INITIALIZATIONS: REGISTERS
+LEVEL 1 THREAD 0
+INITIALIZATIONS: REGISTERS
+R CR             429423DB               * LT:0 GT:1 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R DAR            208F5C827D9A33FB       
+R DSISR          90D3D0F5               * TS:1 PF:0 ATT:0 Rsrv35:1 Prot:0 CI:0 
+*                                         Store:0 Rsrv39_40:1 DAWR:1 VPCK:0 
+*                                         SMF:1 RADIX:0 RC:0 Guest_Tbl:1 
+*                                         Rsrv47_61:743D CIX:0 EAO:1 
+R DEC            000000000001CC97       
+R XER            0000EA704E50000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:0 
+*                                         OC:0 LT:1 GT:1 EQ:1 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R G0             D83406048788252E       
+R G1             124D28B7B1471417       
+R G2             D7AF70CE6B7925E9       
+R G4             2CEDACBA80000000       
+R G5             384896FB0FC02845       
+R G9             4173BD991D0A6D10       
+R G11            42AEDD42ECD74F48       
+R G12            60C994DD33F00760       
+R G14            0859FCFDFFFFF288       
+R G15            12C17DE1FFFFFFFF       
+R G17            82E549B48BCD7D50       
+R G20            B36AB0AF69D2FAED       
+R G21            6FBEA9AA467050E3       
+R G22            7D06DB553DE23BAC       
+R G23            93A5BE3F26FAE4DF       
+R G25            608FAD962CD362BE       
+R G27            637089D19486DA16       
+R G29            DBB97411CA3822C1       
+R G30            582BE8C4D01BB768       
+R IAR            0000000000010000       
+R MSR            0000000000001084       * SF:0 TA:0 Rsrv2_old_ISF:0 HV:0 
+*                                         Rsrv4:0 SLE:0 Rsrv6_28:000000 TS:0 
+*                                         TM:0 Rsrv32_37:00 VMX:0 Rsrv39:0 
+*                                         VSX:0 S:0 Rsrv42_47:00 EE:0 PR:0 FP:0 
+*                                         ME:1 FE0:0 SE:0 BE:0 FE1:0 US:1 
+*                                         Rsrv57_old_IP:0 IR:0 DR:0 
+*                                         Rsrv60_old_SO:0 PMM:1 RI:0 LE:0 
+PHASE 0    INSTRUCTIONS
+I 0000000000010000 33CE1040 * EA=0000000000010000 WIMG=A addic G30,G14,0x1040       INum:1 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G14            0859FCFDFFFFF288       
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G30            0859FCFE000002C8       
+R XER            0000EA707E54000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:1 GT:1 EQ:1 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+R IAR            0000000000010004       
+I 0000000000010004 5FD9292D * EA=0000000000010004 WIMG=A rlwnm. G25,G30,G5,0x04,0x16     INum:2 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G30            0859FCFE000002C8       
+R G5             384896FB0FC02845       
+R XER            0000EA707E54000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:1 GT:1 EQ:1 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G25            0000000000005800       
+R XER            0000EA707454000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+R CR             429423DB               * LT:0 GT:1 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R IAR            0000000000010008       
+I 0000000000010008 7E2F2154 * EA=0000000000010008 WIMG=A addex G17,G15,G4           INum:3 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G15            12C17DE1FFFFFFFF       
+R G4             2CEDACBA80000000       
+R XER            0000EA707454000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R XER            0000EA70745C000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:1 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:1800 len:0A 
+R G17            3FAF2A9C80000000       
+R IAR            000000000001000C       
+I 000000000001000C 7D212D11 * EA=000000000001000C WIMG=A subfeo. G9,G1,G5           INum:4 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G1             124D28B7B1471417       
+R G5             384896FB0FC02845       
+R XER            0000EA70745C000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:1 CA:1 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:1 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:1800 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G9             25FB6E435E79142E       
+R XER            0000EA701450000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R CR             429423DB               * LT:0 GT:1 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R IAR            0000000000010010       
+I 0000000000010010 7C3DBE15 * EA=0000000000010010 WIMG=A addo. G1,G29,G23           INum:5 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G29            DBB97411CA3822C1       
+R G23            93A5BE3F26FAE4DF       
+R XER            0000EA701450000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:0 GT:1 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G1             6F5F3250F13307A0       
+R XER            0000EA701850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R CR             829423DB               * LT:1 GT:0 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R IAR            0000000000010014       
+I 0000000000010014 7EA0A514 * EA=0000000000010014 WIMG=A addeo G21,G0,G20           INum:6 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G0             D83406048788252E       
+R G20            B36AB0AF69D2FAED       
+R XER            0000EA701850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G21            8B9EB6B3F15B201B       
+R XER            0000EA701850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R IAR            0000000000010018       
+I 0000000000010018 7D890191 * EA=0000000000010018 WIMG=A subfze. G12,G9             INum:7 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G9             25FB6E435E79142E       
+R XER            0000EA701850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G12            DA0491BCA186EBD1       
+R XER            0000EA701850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:1 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R CR             829423DB               * LT:1 GT:0 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R IAR            000000000001001C       
+I 000000000001001C 7C89EE30 * EA=000000000001001C WIMG=A sraw G9,G4,G29             INum:8 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G29            DBB97411CA3822C1       
+R G4             2CEDACBA80000000       
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G9             FFFFFFFFC0000000       
+R XER            0000EA700850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:0 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+R IAR            0000000000010020       
+I 0000000000010020 7CAE5838 * EA=0000000000010020 WIMG=A and G14,G5,G11             INum:9 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G5             384896FB0FC02845       
+R G11            42AEDD42ECD74F48       
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G14            000894420CC00840       
+R IAR            0000000000010024       
+I 0000000000010024 7EC2D910 * EA=0000000000010024 WIMG=A subfe G22,G2,G27           INum:10 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+R G2             D7AF70CE6B7925E9       
+R G27            637089D19486DA16       
+R XER            0000EA700850000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:0 
+*                                         OC:0 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:0 
+*                                         Rsrv46_56:000 Rsrv44_56:0000 len:0A 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R G22            8BC11903290DB42C       
+R XER            0000EA702854000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:1 
+*                                         OC:0 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+* FALSE PHASE 0.0    INSTRUCTIONS 
+R IAR            0000000000010028       
+EPILOGUE
+* Begin macro Epilogue_Sequence 
+* TRUE 
+* TRUE 
+I 0000000000010028 60000000 * EA=0000000000010028 WIMG=A nop                        INum:11 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R IAR            000000000001002C       
+I 000000000001002C 60000000 * EA=000000000001002C WIMG=A nop_Epilogue               INum:12 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R IAR            0000000000010030       
+I 0000000000010030 60000000 * EA=0000000000010030 WIMG=A nop_Epilogue               INum:13 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+TRACE READS 
+D 000556F51AB4B610 5904D17886A8DBC1                 * RADIX
+D 000556F51AB4B618 0016B31D28DBB4A4                 * RADIX
+D 0004D17886AFFFF0 4001FFFFFF000005                 * PTE
+D 0004D17886AFFFF8 70000000C7203952                 * PTE
+TRACE WRITES 
+R IAR            0000000000010034       
+I 0000000000010034 24000000 * EA=0000000000010034 WIMG=A notrace                    INum:14 PartId:0 ThreadId:0 Phase:0 CoreId:0 
+* End of macro Epilogue_Sequence
+RESULTS: REGISTERS
+R CR             829423DB               * LT:1 GT:0 EQ:0 SO:0 FX:0 FEX:0 VX:1 
+*                                         OX:0 CR2:9 CR3:4 CR4:2 CR5:3 CR6:D 
+*                                         CR7:B 
+R DAR            208F5C827D9A33FB       
+R DSISR          90D3D0F5               * TS:1 PF:0 ATT:0 Rsrv35:1 Prot:0 CI:0 
+*                                         Store:0 Rsrv39_40:1 DAWR:1 VPCK:0 
+*                                         SMF:1 RADIX:0 RC:0 Guest_Tbl:1 
+*                                         Rsrv47_61:743D CIX:0 EAO:1 
+R DEC            000000000001CC97       
+R XER            0000EA702854000A       * Rsrv0_15:0000 DC:EA70 SO:0 OV:0 CA:1 
+*                                         OC:0 LT:1 GT:0 EQ:0 IC:0 DS:0 TAG0:1 
+*                                         TAG1:0 TAG:1 OV32:0 CA32:1 
+*                                         Rsrv46_56:000 Rsrv44_56:0800 len:0A 
+R G0             D83406048788252E       
+R G1             6F5F3250F13307A0       
+R G2             D7AF70CE6B7925E9       
+R G4             2CEDACBA80000000       
+R G5             384896FB0FC02845       
+R G9             FFFFFFFFC0000000       
+R G11            42AEDD42ECD74F48       
+R G12            DA0491BCA186EBD1       
+R G14            000894420CC00840       
+R G15            12C17DE1FFFFFFFF       
+R G17            3FAF2A9C80000000       
+R G20            B36AB0AF69D2FAED       
+R G21            8B9EB6B3F15B201B       
+R G22            8BC11903290DB42C       
+R G23            93A5BE3F26FAE4DF       
+R G25            0000000000005800       
+R G27            637089D19486DA16       
+R G29            DBB97411CA3822C1       
+R G30            0859FCFE000002C8       
+R IAR            0000000000010038       
+R MSR            0000000000001084       * SF:0 TA:0 Rsrv2_old_ISF:0 HV:0 
+*                                         Rsrv4:0 SLE:0 Rsrv6_28:000000 TS:0 
+*                                         TM:0 Rsrv32_37:00 VMX:0 Rsrv39:0 
+*                                         VSX:0 S:0 Rsrv42_47:00 EE:0 PR:0 FP:0 
+*                                         ME:1 FE0:0 SE:0 BE:0 FE1:0 US:1 
+*                                         Rsrv57_old_IP:0 IR:0 DR:0 
+*                                         Rsrv60_old_SO:0 PMM:1 RI:0 LE:0 
+END_OF_LEVEL 1 THREAD 0
+RESULTS: REGISTERS
+END_OF_LEVEL 2 PARTITION 0
+RESULTS: REGISTERS
+END_OF_LEVEL 3 CORE 0
+END_OF_LEVEL 4 CHIP 0
+RESULTS: DATA MEMORY
+D 0004D17886AFFFF0 4001FFFFFF00000570000000C7203952 * PTE
+D 000556F51AB4B610 5904D17886A8DBC1                 
+D 000556F51AB4B618 0016B31D28DBB4A4                 
+D 00A3E90851081E10 400DFE7F5A0F8B02E1A945C4C2E28951 
+END_OF_TEST
+
+   353.00ns INFO     cocotb.tb                          [00000211] 
+                                                        
+                                                        
+   353.00ns INFO     cocotb.tb                          [00000211] Ran 2 tsts (fails=1).  
+   353.00ns INFO     cocotb.regression                  tb failed
+                                                        Traceback (most recent call last):
+                                                          File "/data/projects/Searchboat/functional/coco_tst/a2p/tb.py", line 413, in tb
+                                                            assert sim.ok, 'FAIL'
+                                                        AssertionError: FAIL
+                                                        assert False
+                                                         +  where False = <[RecursionError('maximum recursion depth exceeded while calling a Python object') raised in repr()] Sim object at 0x7f290ddcb540>.ok
+   353.00ns INFO     cocotb.regression                  **************************************************************************************
+                                                        ** TEST                          STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **
+                                                        **************************************************************************************
+                                                        ** tb.tb                          FAIL         353.00           1.76        201.02  **
+                                                        **************************************************************************************
+                                                        ** TESTS=1 PASS=0 FAIL=1 SKIP=0                353.00           2.06        171.30  **
+                                                        **************************************************************************************
+                                                        
+VCD info: dumpfile a2p.vcd opened for output.
+VCD warning: $dumpvars: Package ($unit) is not dumpable with VCD.
+make[1]: Leaving directory '/data/projects/Searchboat/functional/coco_tst/a2p'
+vcd2fst a2p.vcd a2p.fst
+rm a2p.vcd

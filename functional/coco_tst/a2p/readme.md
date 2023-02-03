@@ -149,6 +149,10 @@ make -f Makefile_nowave build
 
 export TB_ARGS="-f tst/bringup/32BE/fx_alucmp_100x100_2022_1204_1858.tst -n 25"
 make -f Makefile run             # no rtl rebuild
+
+export TB_ARGS="-f tst/bringup/32BE/fx_alucmp_100x100_2022_1204_1858.tst -aF"
+make -f Makefile_nowave run
+
 ```
 
 * run multiple random separately
@@ -182,6 +186,25 @@ sed -n "/TEST $TST/,/END_OF_TEST/p" $F > tmp
 #delete specific tst
 sed -i "/TEST $TST/,/END_OF_TEST/d" $F
 ```
+
+* run regression from dir
+
+```
+rm tb.log
+date
+start=$SECONDS
+for f in tst/bringup/32BE/*mul*; do
+   export TB_ARGS="-f $f -a"
+   txt="sim_$(basename $f).txt"
+   echo "$txt"
+   make -f Makefile_nowave run 2>/dev/null | grep -v "report note" > $txt
+done
+echo "PASS: `grep PASS tb.log | wc -l`"
+echo "FAIL: `grep FAIL tb.log | wc -l`"
+echo "RUNTIME: $((SECONDS-start))s"
+date
+```
+
 
 ### ToDo
 
