@@ -1,4 +1,16 @@
-# A2L2 Interface
+# UWatt Interface
+
+### need to change reads to be like writes; let master change addr ###
+
+# DW-aligned addr
+# DW-wide data
+# I-fetches:
+#   ops are in BE order but returned hi/lo in DW
+#   adr is target op; return critical-first and wrap
+# D-fetches:
+#
+# D-stores:
+#   multiple stb's allowed while acks pending
 
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
@@ -20,7 +32,6 @@ from OPV.env import OPEnv
 # ------------------------------------------------------------------------------------------------
 # Tasks
 
-# 64LE
 async def WBDriver(self, traceReq=False, traceRsp=False):
    """WB interface"""
    sim = self.sim
@@ -30,13 +41,15 @@ async def WBDriver(self, traceReq=False, traceRsp=False):
    me += f' [{self.name}]' if self.name is not None else ''
    ok = True
    # transaction
-   cycPending = 0
    rdPending = False
+   rdAdrPending = []
+   rdCycPending = []
+
    wrPending = False
-   adrPending = 0
-   datPending = 0
-   selPending = 0
-   burstCount = 0
+   wrAdrPending = []
+   wrCycPending = []
+   wrDatPending = []
+   wrSelPending = []
 
    self.msg(me, f'Started.')
 
@@ -56,44 +69,51 @@ async def WBDriver(self, traceReq=False, traceRsp=False):
       if not sim.resetDone:
          continue
 
-      if rdPending and cycPending <= sim.cycle:
+      signals.ack.value = 0
+
+      if rdPending and rdCycPending[0] <= sim.cycle:
          signals.ack.value = 1
-         dat = sim.mem.read(int(adrPending))
-         dat = sim.mem.read(int(adrPending)+4) << 32 | dat
+         dat = sim.mem.read(int(rdAdrPending[0]))
+         dat = sim.mem.read(int(rdAdrPending[0])+4) << 32 | dat
          signals.dati.value = dat
-         burstCount += 1
-         if burstCount == 8:
-            rdPending = False
-            burstCount = 0
-         else:
-            adrPending += 8
+         sl = (rdAdrPending[0] & 0x0000003F) >> 3
          if traceRsp:
-            self.msg(me, f'Rd Data:{dat:016X}')
-      elif wrPending and cycPending <= sim.cycle:
+            self.msg(me, f'Rd Data:{dat:016X} SL:{sl}' )
+         rdAdrPending.pop(0)
+         rdCycPending.pop(0)
+         rdPending = len(rdAdrPending) != 0
+
+      elif wrPending and wrCycPending[0] <= sim.cycle:
          signals.ack.value = 1
-         sim.mem.write(int(adrPending) + 4, datPending >> 32, selPending >> 4)
-         sim.mem.write(int(adrPending), datPending & 0xFFFFFFFF, selPending & 0xF)
-         wrPending = False
+         sim.mem.write(int(wrAdrPending[0]) + 4, wrDatPending[0] >> 32, wrSelPending[0] >> 4)
+         sim.mem.write(int(wrAdrPending[0]), wrDatPending[0] & 0xFFFFFFFF, wrSelPending[0] & 0xF)
          if traceRsp:
-            self.msg(me, f'Wr Data:{datPending:016X} Sel:{selPending:02X}')
-      elif rdPending or wrPending:
-         pass
-      elif signals.ack.value == 1:
-         signals.ack.value = 0
-      elif signals.cyc.value == 1 and signals.stb.value == 1:
+            self.msg(me, f'Wr Data:{wrDatPending[0]:016X} Sel:{wrSelPending[0]:02X}')
+         wrAdrPending.pop(0)
+         wrSelPending.pop(0)
+         wrDatPending.pop(0)
+         wrCycPending.pop(0)
+         wrPending = len(wrAdrPending) != 0
+
+      if  signals.cyc.value == 1 and signals.stb.value == 1:
+         adrPending =  int(signals.adr.value.binstr, 2)
          if signals.we == None or signals.we.value == 0:
             rdPending = True
+            rdAdrPending.append(adrPending)
+            rdCycPending.append(sim.cycle)
+            rdReq = True
          else:
             wrPending = True
-            selPending = int(signals.sel.value.binstr, 2)
-            datPending = int(signals.dato.value)
-         adrPending =  int(signals.adr.value.binstr, 2)
-         cycPending = sim.cycle
+            wrAdrPending.append(adrPending)
+            wrSelPending.append(int(signals.sel.value.binstr, 2))
+            wrDatPending.append(int(signals.dato.value))
+            wrCycPending.append(sim.cycle)
+            rdReq = False
          if traceReq:
-            type = 'Rd' if rdPending else 'Wr'
-            sel = f' Sel:{selPending:02X}' if wrPending else ''
-            dat = f' Dat:{datPending:016X}' if wrPending else ''
-            self.msg(me, f'{type} Req @={adrPending:08X}{sel}{dat}')
+            type = 'Rd' if rdReq else 'Wr'
+            sel = f' Sel:{wrSelPending[-1]:02X}' if not rdReq else ''
+            dat = f' Dat:{wrDatPending[-1]:016X}' if not rdReq else ''
+            self.msg(me, f'{type} Req @={adrPending:08X}{sel}{dat} Rds:{len(rdAdrPending)} Wrs:{len(wrAdrPending)}')
 
 # WB Checker
 # check protocol, etc.

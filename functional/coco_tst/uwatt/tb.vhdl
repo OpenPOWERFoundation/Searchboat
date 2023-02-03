@@ -80,16 +80,11 @@ signal wishbone_dcore_in   : wishbone_slave_out;
 signal wishbone_dcore_out  : wishbone_master_out;
 signal snoop_in            : wishbone_master_out;
 
---wtf test mem to see if it loads from py
-TYPE WORD is array(0 to 63) of std_logic;
-TYPE MEM is array(0 to 31) of WORD;
-SIGNAL test_mem : MEM;
-
 begin
 
    wb_i_CYC <= wishbone_icore_out.cyc;
    wb_i_STB <= wishbone_icore_out.stb;
-   wb_i_ADR <= wishbone_icore_out.adr;
+   wb_i_ADR <= wishbone_icore_out.adr & "000";
 
    wishbone_icore_in.dat <= wb_i_DAT_MISO;
    wishbone_icore_in.ack <= wb_i_ACK;
@@ -97,7 +92,7 @@ begin
 
    wb_d_CYC <= wishbone_dcore_out.cyc;
    wb_d_STB <= wishbone_dcore_out.stb;
-   wb_d_ADR <= wishbone_dcore_out.adr;
+   wb_d_ADR <= wishbone_dcore_out.adr & "000";
    wb_d_WE  <= wishbone_dcore_out.we;
    wb_d_SEL <= wishbone_dcore_out.sel;
    wb_d_DAT_MOSI <= wishbone_dcore_out.dat;

@@ -1,7 +1,4 @@
 # uwatt tb
-# make -f Makefile build  # rebuild and sim and fst
-# make -f Makefile run    # sim and fst
-# make -f Makefile        # sim
 
 SIM_BUILD ?= build_uwatt
 SIM ?= ghdl
@@ -33,20 +30,14 @@ MODULE = tb
 TESTCASE = tb
 
 EXTRA_ARGS = --std=08
-#WAVE_FILE ?= --vcd=uwatt.vcd
-#WAVE_FILE ?= --wave=uwatt.ghw
 
-SIM_ARGS = $(WAVE_FILE) --assert-level=failure --ieee-asserts=disable --vcd=uwatt.vcd
+SIM_ARGS = --assert-level=failure --ieee-asserts=disable
 
 # cocotb make rules
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
-build: clean sim fst
+build: clean sim
 
-run: sim fst
+run: sim
 
-vcd: sim
 
-fst:
-	vcd2fst uwatt.vcd uwatt.fst
-	rm uwatt.vcd

@@ -45,11 +45,12 @@ if opts is not None:
    parser.add_argument('-x', '--extraparms', dest='extraParms', help='extra parms')
    parser.add_argument('-s', '--seed', dest='seed', help='starting seed')
    parser.add_argument('-T', '--trace', dest='trace', action='store_true', help='enable tracing') # use diff makefile for now
+   parser.add_argument('-p', '--printtst', dest='printTst', action='store_true', help='print tst at end for passes also')
 
    args = parser.parse_args()
 else:
    args = DotMap({'tstFile': None, 'tst': None, 'tstNum': None, 'all': False, 'stoponfail': False, 'logFile': None, 'noLog': False,
-                  'seed': None, 'trace': False, 'extraParms': None})
+                  'seed': None, 'trace': False, 'extraParms': None, 'printTst': None})
 
 
 # ------------------------------------------------------------------------------------------------
@@ -181,28 +182,27 @@ async def run_tst(sim, parser, pick, printFailTst=True):
    sim.mem.clear()
 
    # tst setup - could do with mem file load
-   swizzle = False
-   sim.mem.write(0x0000, 0x4C000024, le=swizzle)      # rfid to tst
-   sim.mem.write(0x0004, 0x48000000, le=swizzle)      # iarFail
-   sim.mem.write(0x0100, 0x48000006, le=swizzle)
-   sim.mem.write(0x0200, 0x48000006, le=swizzle)
-   sim.mem.write(0x0300, 0x48000006, le=swizzle)
-   sim.mem.write(0x0400, 0x48000006, le=swizzle)
-   sim.mem.write(0x0500, 0x48000006, le=swizzle)
-   sim.mem.write(0x0600, 0x48000006, le=swizzle)
-   sim.mem.write(0x0700, 0x48000006, le=swizzle)
-   sim.mem.write(0x0800, 0x48000006, le=swizzle)
+   sim.mem.write(0x0000, 0x4C000024)      # rfid to tst
+   sim.mem.write(0x0004, 0x48000000)      # iarFail
+   sim.mem.write(0x0100, 0x48000006)
+   sim.mem.write(0x0200, 0x48000006)
+   sim.mem.write(0x0300, 0x48000006)
+   sim.mem.write(0x0400, 0x48000006)
+   sim.mem.write(0x0500, 0x48000006)
+   sim.mem.write(0x0600, 0x48000006)
+   sim.mem.write(0x0700, 0x48000006)
+   sim.mem.write(0x0800, 0x48000006)
    if sim.allowDec:
-      sim.mem.write(0x0900, 0x7c0343a6, le=swizzle)         # mtspr sprg3,r0
+      sim.mem.write(0x0900, 0x7c0343a6)         # mtspr sprg3,r0
       dec = randint(50, 150)
-      sim.mem.write(0x0904, 0x38000000 | dec, le=swizzle)   # li r0, xxxx
-      sim.mem.write(0x0908, 0x7c1603a6, le=swizzle)         # mtdec r0
-      sim.mem.write(0x090C, 0x7c0342a6, le=swizzle)         # mfspr r0,sprg3
-      sim.mem.write(0x0910, 0x4C000024, le=swizzle)         # rfid
+      sim.mem.write(0x0904, 0x38000000 | dec)   # li r0, xxxx
+      sim.mem.write(0x0908, 0x7c1603a6)         # mtdec r0
+      sim.mem.write(0x090C, 0x7c0342a6)         # mfspr r0,sprg3
+      sim.mem.write(0x0910, 0x4C000024)         # rfid
    else:
-      sim.mem.write(0x0900, 0x48000006, le=swizzle)
+      sim.mem.write(0x0900, 0x48000006)
 
-   reject = not await sim.core.loadTst(tst)
+   reject = not await sim.core.loadTst(tst, le=sim.le)
 
    if not reject:
 
@@ -235,7 +235,7 @@ async def run_tst(sim, parser, pick, printFailTst=True):
       sim.stopClocks = True
       # tst reached expected final IAR; check results
       if sim.ok:
-         sim.core.checkTst()
+         sim.core.checkTst(le=sim.le)
 
    tstFile = parser.fn
    sim.msg()
@@ -250,15 +250,21 @@ async def run_tst(sim, parser, pick, printFailTst=True):
       if reject:
          f.write(f'{tst.name} RJCT [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'No run.')
+         if sim.printTst:
+            sim.msg(f'Test:\n')
+            print(parser.read(tst.id))
       elif sim.ok:
          f.write(f'{tst.name} PASS [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'You has opulence.')
+         if sim.printTst:
+            sim.msg(f'Test:\n')
+            print(parser.read(tst.id))
       else:
          f.write(f'{tst.name} FAIL [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} msg:[{sim.fail}] file:[{tstFile}]\n')
          sim.msg(f'You are worthless and weak!')
          sim.msg(f'{sim.fail}')
-         sim.msg(f'Test:\n')
          if printFailTst:
+            sim.msg(f'Test:\n')
             #print(tst)
             print(parser.read(tst.id))
       f.close()
@@ -275,7 +281,7 @@ async def tb(dut):
    # set up sim
    sim = OPEnv.Sim(dut)
    sim.mem = OPEnv.Memory(sim)
-   sim.maxCycles = 500
+   sim.maxCycles = 1500
    sim.sigClk = dut.clk
    sim.sigRst = dut.rst
    sim.resetAddr = 0x00000000
@@ -285,6 +291,7 @@ async def tb(dut):
    sim.logFile = 'tb.log' if args.logFile is None else args.logFile
    sim.noLog = args.noLog
    sim.extraParms = args.extraParms
+   sim.printTst = args.printTst
 
    # set up core
    sim.core = UWatt(sim, dut.core)
@@ -293,6 +300,8 @@ async def tb(dut):
    sim.core.stopOnLoop = 50
    sim.allowDec = sim.core.allowDec
    sim.allowDec = sim.core.allowDec
+
+   sim.le = True # need to get this from .tst if want to run both on same core
 
    # init stuff
    await init(sim)

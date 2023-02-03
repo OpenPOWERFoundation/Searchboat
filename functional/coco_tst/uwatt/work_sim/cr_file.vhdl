@@ -1,0 +1,153 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+library work;
+use work.common.all;
+
+entity cr_file is
+    generic (
+        SIM : boolean := false;
+        -- Non-zero to enable log data collection
+        LOG_LENGTH : natural := 0
+        );
+    port(
+        clk   : in std_logic;
+
+        d_in  : in Decode2ToCrFileType;
+        d_out : out CrFileToDecode2Type;
+
+        w_in  : in WritebackToCrFileType;
+        ctrl  : in ctrl_t;
+
+        -- debug
+        sim_dump : in std_ulogic;
+
+        log_out : out std_ulogic_vector(12 downto 0)
+        );
+end entity cr_file;
+
+architecture behaviour of cr_file is
+    signal crs : std_ulogic_vector(31 downto 0) := (others => '0');
+    signal crs_updated : std_ulogic_vector(31 downto 0);
+    signal xerc : xer_common_t := xerc_init;
+    signal xerc_updated : xer_common_t;
+    signal wtf_wr_cr : std_ulogic;
+    signal wtf_wr_cr_ld : std_ulogic;
+    signal wtf_cr : std_ulogic_vector(31 downto 0);
+    signal wtf_wr_xerc : std_ulogic;
+    signal wtf_xerc : std_ulogic_vector(0 to 4);
+    signal wtf_wr_xerc_ld : std_ulogic;
+    signal wtf_xerc_ld : std_ulogic_vector(0 to 4);
+begin
+
+    wtf_wr_cr <= w_in.write_cr_enable;
+    wtf_wr_cr_ld <= '0'; -- so sim can load - shouldnt need?
+    wtf_wr_xerc <= w_in.write_xerc_enable;
+    wtf_xerc <= xerc_updated.so & xerc_updated.ov & xerc_updated.ca & xerc_updated.ov32 & xerc_updated.ca32;
+    wtf_wr_xerc_ld <= '0'; -- so sim can load
+    wtf_xerc_ld <= "00000";
+
+    cr_create_0: process(all)
+        variable hi, lo : integer := 0;
+        variable cr_tmp : std_ulogic_vector(31 downto 0) := (others => '0');
+    begin
+        cr_tmp := crs;
+
+        for i in 0 to 7 loop
+            if w_in.write_cr_mask(i) = '1' then
+                lo := i*4;
+                hi := lo + 3;
+                cr_tmp(hi downto lo) := w_in.write_cr_data(hi downto lo);
+            end if;
+        end loop;
+
+        crs_updated <= cr_tmp;
+
+        if w_in.write_xerc_enable = '1' then
+            xerc_updated <= w_in.write_xerc_data;
+        else
+            xerc_updated <= xerc;
+        end if;
+
+    end process;
+
+    -- synchronous writes + sim
+    cr_write_0: process(clk, wtf_wr_cr_ld)
+    begin
+        if rising_edge(clk) then
+            if w_in.write_cr_enable = '1' then
+                report "Writing " & to_hstring(w_in.write_cr_data) & " to CR mask " & to_hstring(w_in.write_cr_mask);
+                crs <= crs_updated;
+            end if;
+      elsif wtf_wr_cr_ld = '1' then
+            crs <= wtf_cr;
+      end if;
+    end process;
+
+    -- synchronous writes + sim
+    cr_write_1: process(clk, wtf_wr_xerc_ld)
+    begin
+        if rising_edge(clk) then
+            if w_in.write_xerc_enable = '1' then
+                report "Writing XERC SO=" & std_ulogic'image(xerc_updated.so) &
+                    " OV=" & std_ulogic'image(xerc_updated.ov) &
+                    " CA=" & std_ulogic'image(xerc_updated.ca) &
+                    " OV32=" & std_ulogic'image(xerc_updated.ov32) &
+                    " CA32=" & std_ulogic'image(xerc_updated.ca32);
+                xerc <= xerc_updated;
+            end if;
+        elsif wtf_wr_xerc_ld = '1' then
+            xerc.so   <= wtf_xerc_ld(0);
+            xerc.ov   <= wtf_xerc_ld(1);
+            xerc.ca   <= wtf_xerc_ld(2);
+            xerc.ov32 <= wtf_xerc_ld(3);
+            xerc.ca32 <= wtf_xerc_ld(4);
+        end if;
+    end process;
+
+    -- asynchronous reads
+    cr_read_0: process(all)
+    begin
+        -- just return the entire CR to make mfcrf easier for now
+        if d_in.read = '1' then
+            report "Reading CR " & to_hstring(crs_updated);
+        end if;
+        d_out.read_cr_data <= crs_updated;
+        d_out.read_xerc_data <= xerc_updated;
+    end process;
+
+    sim_dump_test: if SIM generate
+        dump_cr: process(all)
+            variable xer : std_ulogic_vector(31 downto 0);
+        begin
+            if sim_dump = '1' then
+                report "CR 00000000" & to_hstring(crs);
+                xer := (others => '0');
+                xer(31) := xerc.so;
+                xer(30) := xerc.ov;
+                xer(29) := xerc.ca;
+                xer(19) := xerc.ov32;
+                xer(18) := xerc.ca32;
+                xer(17 downto 0) := ctrl.xer_low;
+                report "XER 00000000" & to_hstring(xer);
+                assert false report "end of test" severity failure;
+            end if;
+        end process;
+    end generate;
+
+    cf_log: if LOG_LENGTH > 0 generate
+        signal log_data : std_ulogic_vector(12 downto 0);
+    begin
+        cr_log: process(clk)
+        begin
+            if rising_edge(clk) then
+                log_data <= w_in.write_cr_enable &
+                            w_in.write_cr_data(31 downto 28) &
+                            w_in.write_cr_mask;
+            end if;
+        end process;
+        log_out <= log_data;
+    end generate;
+
+end architecture behaviour;

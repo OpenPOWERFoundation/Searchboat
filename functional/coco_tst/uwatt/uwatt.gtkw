@@ -1,21 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Thu Feb  2 13:53:57 2023
+[*] Thu Feb  2 20:48:50 2023
 [*]
 [dumpfile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.fst"
-[dumpfile_mtime] "Thu Feb  2 13:44:40 2023"
-[dumpfile_size] 16355
+[dumpfile_mtime] "Thu Feb  2 20:42:50 2023"
+[dumpfile_size] 18083
 [savefile] "/data/projects/Searchboat/functional/coco_tst/uwatt/uwatt.gtkw"
-[timestart] 0
-[size] 2169 1124
-[pos] 110 127
-*-23.000000 40046000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 16180000
+[size] 2270 1183
+[pos] 264 140
+*-22.000000 37046000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] tb.
 [treeopen] tb.core.
+[treeopen] tb.core.execute1_0.
 [sst_width] 206
-[signals_width] 307
+[signals_width] 374
 [sst_expanded] 1
-[sst_vpaned_height] 374
+[sst_vpaned_height] 396
 @28
 tb.clk
 tb.rst
@@ -34,6 +35,7 @@ tb.wb_i_dat_miso[63:0]
 -WBd
 @28
 tb.wb_d_cyc
+@29
 tb.wb_d_stb
 @22
 tb.wb_d_adr[31:0]
@@ -49,20 +51,11 @@ tb.wb_d_dat_mosi[63:0]
 @200
 -SPR
 @22
-tb.core.msr[63:0]
 tb.core.cr_file_0.crs[31:0]
 @28
 tb.core.decode2_0.gpr_a_read_valid
-@22
-tb.core.decode2_0.gpr_a_read[6:0]
-@28
 tb.core.decode2_0.gpr_b_read_valid
-@22
-tb.core.decode2_0.gpr_b_read[6:0]
-@28
 tb.core.decode2_0.gpr_c_read_valid
-@22
-tb.core.decode2_0.gpr_c_read[6:0]
 @200
 -FETCH
 @28
@@ -74,17 +67,25 @@ tb.core.fetch1_0.stall_in
 @28
 tb.core.execute1_0.valid_in
 @22
+tb.core.execute1_0.wtf_cia[63:0]
 tb.core.execute1_0.next_nia[63:0]
+@28
+tb.core.execute1_0.ramspr_wr_addr[2:0]
+tb.core.execute1_0.ramspr_even_wr_enab
+@22
+tb.core.execute1_0.ramspr_even_wr_data[63:0]
+@28
+tb.core.execute1_0.ramspr_odd_wr_enab
+@22
+tb.core.execute1_0.ramspr_odd_wr_data[63:0]
+tb.core.execute1_0.ramspr_even[63:0]
+tb.core.execute1_0.ramspr_odd[63:0]
 @200
 -WB
 @28
-tb.core.execute1_0.valid_in
-@22
-tb.core.execute1_0.wtf_cia[63:0]
-@28
+tb.core.writeback_0.wtf_comp
 tb.core.register_file_0.wtf_reg_w_enb
 @22
-tb.core.register_file_0.wtf_reg_w_adr[6:0]
 tb.core.register_file_0.wtf_reg_w_dat[63:0]
 tb.core.cr_file_0.crs[31:0]
 @28
@@ -104,7 +105,6 @@ tb.core.cr_file_0.wtf_xerc[0:4]
 +{ov} (1)tb.core.cr_file_0.wtf_xerc[0:4]
 +{ca} (2)tb.core.cr_file_0.wtf_xerc[0:4]
 +{ov32} (3)tb.core.cr_file_0.wtf_xerc[0:4]
-@29
 +{xerc.ca32} (4)tb.core.cr_file_0.wtf_xerc[0:4]
 @1000200
 -XERC
