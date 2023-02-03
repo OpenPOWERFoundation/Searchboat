@@ -78,6 +78,18 @@ class Sim(DotMap):
       else:
          return res
 
+   def bytereverse(self, n):
+      resStr = True
+      if not isinstance(n, str):
+         n = f'{n:X}'
+         resStr = False
+      res = ''
+      for i in range(int(len(n)/2)):
+         res = n[i*2:i*2+2] + res
+      if resStr:
+         return res
+      else:
+         return int(res, 16)
 
 class TransQ(DotMap):
    def __init__(self):
@@ -238,156 +250,83 @@ class Memory(DotMap):
       return text
 
    # tst-style hex string ea,val
-   def tstInit(self, ea, val):
+   def tstInit(self, ea, val, le=False):
 
          ea = int(ea, 16)
          bytes = int(len(val)/2)
-
-         # align first word
-         if ea & 0x3 == 0:
-            size = min(bytes, 4)
-            if size == 1:
-               be = '1000'
-               dat = int(val[0:2],16) << 24
-            elif size == 2:
-               be = '1100'
-               dat = int(val[0:4],16) << 16
-            elif size == 3:
-               be = '1110'
-               dat = int(val[0:6],16) << 8
-            else:
-               be = '1111'
-               dat = int(val[0:8],16)
-         elif ea & 0x3 == 1:
-            size = min(bytes, 3)
-            if size == 1:
-               be = '0100'
-               dat = int(val[0:2],16) << 16
-            elif size == 2:
-               be = '0110'
-               dat = int(val[0:4],16) << 8
-            else:
-               be = '0111'
-               dat = int(val[0:6],16)
-         elif ea & 0x3 == 2:
-            size = min(bytes, 2)
-            if size == 1:
+         if le:
+            if ea & 0x3 == 0:
+               be = '0001'
+            elif ea & 0x3 == 1:
                be = '0010'
-               dat = int(val[0:2],16) << 8
+            elif ea & 0x3 == 2:
+               be = '0100'
             else:
-               be = '0011'
-               dat = int(val[0:4],16)
+               be = '1000'
          else:
-            size = 1
-            be = '0001'
-            dat = int(val[0:2],16)
-
-         loc = ea & 0xFFFFFFFFFFFFFFFC
-
-         self.write(loc, dat, be)
-
-         loc += 4
-         bytesLeft = bytes - size
-         datLeft = val[size*2:] if bytesLeft > 0 else None
-         while bytesLeft > 0:
-            if bytesLeft < 4:
-               dat = int(datLeft, 16)
-               if bytesLeft == 1:
-                  be = '1000'
-                  dat = dat << 24
-               elif bytesLeft == 2:
-                  be = '1100'
-                  dat = dat << 16
-               else:
-                  be = '1110'
-                  dat = dat << 8
-               self.write(loc, dat, be)
-               bytesLeft = 0
+            if ea & 0x3 == 0:
+               be = '1000'
+            elif ea & 0x3 == 1:
+               be = '0100'
+            elif ea & 0x3 == 2:
+               be = '0010'
             else:
-               dat = int(datLeft[0:8], 16)
-               self.write(loc, dat)
-               loc += 4
-               bytesLeft -= 4
-               datLeft = datLeft[8:] if bytesLeft > 0 else None
+               be = '0001'
+
+         for i in range(bytes):
+            loc = ea & 0xFFFFFFFFFFFFFFFC
+            if le:
+               dat = int(val[0:2], 16) << 8*(ea & 0x3)
+            else:
+               dat = int(val[0:2], 16) << 8*(3 - (ea & 0x3))
+            self.write(loc, dat, be)
+            ea = ea + 1
+            val = val[2:]
+            if le:
+               be = be[1:] + be[0]
+            else:
+               be = be[3] + be[0:3]
 
    # tst-style hex string ea,val
-   def tstCheck(self, ea, val):
+   def tstCheck(self, ea, val, le=False):
 
       fails = []
 
       ea = int(ea, 16)
       bytes = int(len(val)/2)
-
-      # align first word
-      if ea & 0x3 == 0:
-         size = min(bytes, 4)
-         if size == 1:
-            be = '1000'
-            dat = int(val[0:2],16) << 24
-         elif size == 2:
-            be = '1100'
-            dat = int(val[0:4],16) << 16
-         elif size == 3:
-            be = '1110'
-            dat = int(val[0:6],16) << 8
-         else:
-            be = '1111'
-            dat = int(val[0:8],16)
-      elif ea & 0x3 == 1:
-         size = min(bytes, 3)
-         if size == 1:
-            be = '0100'
-            dat = int(val[0:2],16) << 16
-         elif size == 2:
-            be = '0110'
-            dat = int(val[0:4],16) << 8
-         else:
-            be = '0111'
-            dat = int(val[0:6],16)
-      elif ea & 0x3 == 2:
-         size = min(bytes, 2)
-         if size == 1:
+      if le:
+         if ea & 0x3 == 0:
+            be = '0001'
+         elif ea & 0x3 == 1:
             be = '0010'
-            dat = int(val[0:2],16) << 8
+         elif ea & 0x3 == 2:
+            be = '0100'
          else:
-            be = '0011'
-            dat = int(val[0:4],16)
+            be = '1000'
       else:
-         size = 1
-         be = '0001'
-         dat = int(val[0:2],16)
-
-      loc = ea & 0xFFFFFFFFFFFFFFFC
-
-      act = self.read(loc)
-      self.check(dat, act, be, f'M@{loc:016X}', fails)
-
-      loc += 4
-      bytesLeft = bytes - size
-      datLeft = val[size*2:] if bytesLeft > 0 else None
-      while bytesLeft > 0:
-         if bytesLeft < 4:
-            dat = int(datLeft, 16)
-            if bytesLeft == 1:
-               be = '1000'
-               dat = dat << 24
-            elif bytesLeft == 2:
-               be = '1100'
-               dat = dat << 16
-            else:
-               be = '1110'
-               dat = dat << 8
-            act = self.read(loc)
-            self.check(dat, act, be, f'M@{loc:016X}', fails)
-            bytesLeft = 0
+         if ea & 0x3 == 0:
+            be = '1000'
+         elif ea & 0x3 == 1:
+            be = '0100'
+         elif ea & 0x3 == 2:
+            be = '0010'
          else:
-            be = '1111'
-            dat = int(datLeft[0:8], 16)
-            act = self.read(loc)
-            self.check(dat, act, be, f'M@{loc:016X}', fails)
-            loc += 4
-            bytesLeft -= 4
-            datLeft = datLeft[8:] if bytesLeft > 0 else None
+            be = '0001'
+
+      for i in range(bytes):
+         loc = ea & 0xFFFFFFFFFFFFFFFC
+         if le:
+            dat = int(val[0:2], 16) << 8*(ea & 0x3)
+         else:
+            dat = int(val[0:2], 16) << 8*(3 - (ea & 0x3))
+         act = self.read(loc)
+         self.check(dat, act, be, f'M@{loc:016X}', fails)
+         ea = ea + 1
+         val = val[2:]
+         if le:
+            be = be[1:] + be[0]
+         else:
+            be = be[3] + be[0:3]
 
       return len(fails) == 0, fails
 
