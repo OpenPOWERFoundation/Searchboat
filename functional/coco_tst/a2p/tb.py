@@ -202,6 +202,14 @@ async def run_tst(sim, parser, pick, printFailTst=True):
 
    reject = not sim.a2p.loadTst(tst)
 
+   cocotb.RANDOM_SEED = sim.seed
+   startSeed = sim.seed
+   sim.msg(f'Running tst; seed={sim.seed}.')
+
+   # set seed so single is reproducible alone if running multiple *NOT TRIED TO SEE IF TRULY REPRODUCIBLE*
+   #sim.seed = ((sim.seed << 1) & 0xFFFFFFFFFFFFFFFF) | (sim.seed & 0x8000000000000000 >> 63)
+   sim.seed = ((sim.seed << 1) & 0xFFFFFFFF) | (sim.seed & 0x80000000 >> 31)
+
    if not reject:
 
       cocotb.RANDOM_SEED = sim.seed
@@ -245,13 +253,13 @@ async def run_tst(sim, parser, pick, printFailTst=True):
       now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
       if reject:
-         f.write(f'{tst.name} RJCT [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
+         f.write(f'{tst.name} RJCT [{now}] seed:{startSeed} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'No run.')
       elif sim.ok:
-         f.write(f'{tst.name} PASS [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
+         f.write(f'{tst.name} PASS [{now}] seed:{startSeed} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'You has opulence.')
       else:
-         f.write(f'{tst.name} FAIL [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} msg:[{sim.fail}] file:[{tstFile}]\n')
+         f.write(f'{tst.name} FAIL [{now}] seed:{startSeed} cycles:{sim.cycle} msg:[{sim.fail}] file:[{tstFile}]\n')
          sim.msg(f'You are worthless and weak!')
          sim.msg(f'{sim.fail}')
          sim.msg(f'Test:\n')

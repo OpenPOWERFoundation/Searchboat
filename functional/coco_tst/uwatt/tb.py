@@ -204,14 +204,15 @@ async def run_tst(sim, parser, pick, printFailTst=True):
 
    reject = not await sim.core.loadTst(tst, le=sim.le)
 
+   cocotb.RANDOM_SEED = sim.seed
+   startSeed = sim.seed
+   sim.msg(f'Running tst; seed={sim.seed}.')
+
+   # set seed so single is reproducible alone if running multiple *NOT TRIED TO SEE IF TRULY REPRODUCIBLE*
+   #sim.seed = ((sim.seed << 1) & 0xFFFFFFFFFFFFFFFF) | (sim.seed & 0x8000000000000000 >> 63)
+   sim.seed = ((sim.seed << 1) & 0xFFFFFFFF) | (sim.seed & 0x80000000 >> 31)
+
    if not reject:
-
-      cocotb.RANDOM_SEED = sim.seed
-      sim.msg(f'Running tst; seed={sim.seed}.')
-
-      # set seed so single is reproducible alone if running multiple *NOT TRIED TO SEE IF TRULY REPRODUCIBLE*
-      #sim.seed = ((sim.seed << 1) & 0xFFFFFFFFFFFFFFFF) | (sim.seed & 0x8000000000000000 >> 63)
-      sim.seed = ((sim.seed << 1) & 0xFFFFFFFF) | (sim.seed & 0x80000000 >> 31)
 
       sim.core.iarPass = sim.core.tstEndIAR
       sim.core.iarFail = 0x0004
@@ -248,19 +249,19 @@ async def run_tst(sim, parser, pick, printFailTst=True):
       now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
       if reject:
-         f.write(f'{tst.name} RJCT [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
+         f.write(f'{tst.name} RJCT [{now}] seed:{startSeed} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'No run.')
          if sim.printTst:
             sim.msg(f'Test:\n')
             print(parser.read(tst.id))
       elif sim.ok:
-         f.write(f'{tst.name} PASS [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} file:[{tstFile}]\n')
+         f.write(f'{tst.name} PASS [{now}] seed:{startSeed} cycles:{sim.cycle} file:[{tstFile}]\n')
          sim.msg(f'You has opulence.')
          if sim.printTst:
             sim.msg(f'Test:\n')
             print(parser.read(tst.id))
       else:
-         f.write(f'{tst.name} FAIL [{now}] seed:{cocotb.RANDOM_SEED} cycles:{sim.cycle} msg:[{sim.fail}] file:[{tstFile}]\n')
+         f.write(f'{tst.name} FAIL [{now}] seed:{startSeed} cycles:{sim.cycle} msg:[{sim.fail}] file:[{tstFile}]\n')
          sim.msg(f'You are worthless and weak!')
          sim.msg(f'{sim.fail}')
          if printFailTst:

@@ -48,3 +48,21 @@ RUNTIME: 227s
 Fri Feb  3 09:41:45 AM CST 2023
 ```
 
+```
+rm tb.log
+date
+start=$SECONDS
+for f in tst/random/64LE/*; do
+   export TB_ARGS="-f $f -a"
+   txt="sim_$(basename $f).txt"
+   echo "$txt"
+   make -f Makefile_nowave run 2>/dev/null | grep -v "report note" > $txt
+done
+echo "PASS: `grep PASS tb.log | wc -l`"
+echo "FAIL: `grep FAIL tb.log | wc -l`"
+echo "RJCT: `grep RJCT tb.log | wc -l`"
+echo "RUNTIME: $((SECONDS-start))s"
+date
+
+
+```
