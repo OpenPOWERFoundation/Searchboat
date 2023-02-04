@@ -60,7 +60,9 @@ regIDs = {
    'DEC' : regID_spr + 22,
    'SRR0' : regID_spr + 26,
    'SRR1' : regID_spr + 27,
-   'TAR' : regID_spr + 815
+   'TAR' : regID_spr + 815,
+   'PTCR': regID_spr + 446,
+   'PIDR' : regID_spr + 48
 
 }
 

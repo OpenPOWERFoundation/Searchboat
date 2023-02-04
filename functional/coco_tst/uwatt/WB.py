@@ -1,17 +1,5 @@
 # UWatt Interface
 
-### need to change reads to be like writes; let master change addr ###
-
-# DW-aligned addr
-# DW-wide data
-# I-fetches:
-#   ops are in BE order but returned hi/lo in DW
-#   adr is target op; return critical-first and wrap
-# D-fetches:
-#
-# D-stores:
-#   multiple stb's allowed while acks pending
-
 import cocotb
 from cocotb.triggers import Timer, RisingEdge
 from cocotb.binary import BinaryValue

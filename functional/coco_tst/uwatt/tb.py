@@ -347,7 +347,8 @@ async def tb(dut):
    sim.mem.logStores = False
 
    # ignore PTE, etc. in tst init/check
-   sim.ignoreMem = [(0x00080000, 0xFFFFFFFFFFFFFFFF)]
+   #sim.ignoreMem = [(0x00080000, 0xFFFFFFFFFFFFFFFF)]
+   sim.ignoreMem = []
    # reject tst if instructions invade low mem
    sim.rejectMem = [(0x00000000, 0x00001FFF)]
 

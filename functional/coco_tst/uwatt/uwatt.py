@@ -323,7 +323,9 @@ class UWatt(DotMap):
          'srr0' : 0,
          'srr1' : 0,
          'dar' : 0,
-         'dsisr' : 0
+         'dsisr' : 0,
+         'ptcr' : 0,
+         'pidr' : 0
       })
 
       # check extra parms for cool secret stuff
@@ -450,6 +452,20 @@ class UWatt(DotMap):
          elif r.id == 0xF32F:
             await self.writeSPR(sprs['tar'], int(r.val, 16))
             self.facs.tar = int(r.val, 16)
+         elif r.id == 0xF1BE:
+            self.facs.ptcr = int(r.val, 16)
+            self.root.mmu_0.wtf_wr_ptcr.value = 1
+            self.root.mmu_0.wtf_wr_ptcr_dat.value = self.facs.ptcr
+            await Timer(1, units='ps')
+            self.root.mmu_0.wtf_wr_ptcr.value = 0
+            await Timer(1, units='ps')
+         elif r.id == 0xF030:
+            self.facs.pid = int(r.val, 16)
+            self.root.mmu_0.wtf_wr_pid.value = 1
+            self.root.mmu_0.wtf_wr_pid_dat.value = self.facs.pid
+            await Timer(1, units='ps')
+            self.root.mmu_0.wtf_wr_pid.value = 0
+            await Timer(1, units='ps')
          else:
             assert False, f'uwatt.loadTst(): got unhandled reg init: {r.id:04X}={r.val}'
 
