@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Dec 14 18:35:39 2022
+[*] Tue Feb 14 19:34:20 2023
 [*]
 [dumpfile] "/data/projects/Searchboat/functional/coco_tst/a2p/a2p.fst"
-[dumpfile_mtime] "Wed Dec 14 17:57:08 2022"
-[dumpfile_size] 65575
+[dumpfile_mtime] "Fri Feb  3 19:54:25 2023"
+[dumpfile_size] 3386460
 [savefile] "/data/projects/Searchboat/functional/coco_tst/a2p/a2p.gtkw"
 [timestart] 71530
 [size] 1993 1127
@@ -107,6 +107,8 @@ tb.core.decode_arbitration_isValid
 tb.core.decode_arbitration_isFiring
 @22
 tb.core.decode_PC[31:0]
+@4023
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
 tb.core.decode_INSTRUCTION[31:0]
 @28
 tb.core.execute_arbitration_isValid
@@ -114,7 +116,10 @@ tb.core.execute_arbitration_isFiring
 tb.core.decode_arbitration_isStuckByOthers
 @22
 tb.core.execute_PC[31:0]
+@4023
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
 tb.core.execute_INSTRUCTION[31:0]
+@22
 tb.core.execute_SRC1[31:0]
 tb.core.execute_SRC2[31:0]
 @28
@@ -128,13 +133,16 @@ tb.core.memory_arbitration_isValid
 tb.core.memory_arbitration_isFiring
 @22
 tb.core.memory_PC[31:0]
+@4023
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
 tb.core.memory_INSTRUCTION[31:0]
 @28
 tb.core.writeBack_arbitration_isValid
 tb.core.writeBack_arbitration_isFiring
 @22
 tb.core.writeBack_PC[31:0]
-@c00022
+@c04023
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
 tb.core.writeBack_INSTRUCTION[31:0]
 @28
 (0)tb.core.writeBack_INSTRUCTION[31:0]
@@ -169,7 +177,7 @@ tb.core.writeBack_INSTRUCTION[31:0]
 (29)tb.core.writeBack_INSTRUCTION[31:0]
 (30)tb.core.writeBack_INSTRUCTION[31:0]
 (31)tb.core.writeBack_INSTRUCTION[31:0]
-@1401200
+@1401201
 -group_end
 @28
 tb.core.dataCache_1__io_mem_cmd_m2sPipe_rData_wr
@@ -212,9 +220,8 @@ tb.core.IBusCachedPlugin_jump_pcLoad_payload[31:0]
 tb.core.BranchPlugin_jumpInterface_valid
 @22
 tb.core.BranchPlugin_jumpInterface_payload[31:0]
-@29
-tb.core.SPRPlugin_jumpInterface_valid
 @28
+tb.core.SPRPlugin_jumpInterface_valid
 tb.core.execute_BranchPlugin_condOK
 tb.core.execute_BranchPlugin_ctrOK
 tb.core.execute_BranchPlugin_ctrOne

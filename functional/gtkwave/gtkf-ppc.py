@@ -90,7 +90,7 @@ def massage(op, hexify=False):
 
    return op
 
-def main():
+def main(useColors=True):
 
    while True:
 
@@ -106,19 +106,23 @@ def main():
          ins = t[0]
          ops = t[1]
          # could convert decimals > 10 to hex in operands
-         if ins[0:2] == '0x' and 'data' in colors:
-            color = colors['data']
-         elif ins in colors:
-            color = colors[ins]
+         if useColors:
+            if ins[0:2] == '0x' and 'data' in colors:
+               color = colors['data']
+            elif ins in colors:
+               color = colors[ins]
+            else:
+               color = colors['default']
+            color = f'?{color}?'
          else:
-            color = colors['default']
-         fo.write(f'?{color}?{ins} {ops}\n')
+            color = ''
+         fo.write(f'{color}{ins} {ops}\n')
 
       fo.flush()
 
 
 if __name__ == '__main__':
-	sys.exit(main())
+	sys.exit(main(useColors=False))
 
 '''
 rgb.c from gtkwave
