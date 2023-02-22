@@ -1,0 +1,171 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Feb 22 21:04:23 2023
+[*]
+[dumpfile] "/data/projects/Searchboat/functional/coco_tst/dino32/d32.fst"
+[dumpfile_mtime] "Wed Feb 22 21:02:24 2023"
+[dumpfile_size] 76621
+[savefile] "/data/projects/Searchboat/functional/coco_tst/dino32/d32.gtkw"
+[timestart] 6500
+[size] 2106 1172
+[pos] 180 119
+*-12.000000 12000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb.
+[treeopen] tb.core.
+[treeopen] tb.core.bu.
+[treeopen] tb.core.bu.bt.
+[sst_width] 260
+[signals_width] 522
+[sst_expanded] 1
+[sst_vpaned_height] 346
+@28
+tb.clk
+tb.reset
+tb.wb_i_CYC
+tb.wb_i_STB
+@2
+tb.wb_i_ADR[29:0]
+@28
+tb.wb_i_ACK
+@4022
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
+tb.wb_i_DAT_MISO[31:0]
+@28
+tb.wb_d_CYC
+tb.wb_d_STB
+tb.wb_d_WE
+@22
+tb.wb_d_SEL[3:0]
+@2
+tb.wb_d_ADR[29:0]
+@22
+tb.wb_d_DAT_MOSI[31:0]
+tb.wb_d_DAT_MISO[31:0]
+@200
+-IFU
+@2
+tb.core.ifu.f__o__cia[29:0]
+tb.core.ifu.d__i__nia[29:0]
+@4022
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
+tb.core.ifu.f__o__insn[31:0]
+@200
+-IU
+@28
+tb.core.iu.fsm_state[2:0]
+tb.core.iu.x__i__ack
+@4022
+^>1 /data/projects/Searchboat/functional/gtkwave/gtkf-ppc.py
+tb.core.iu.x__i__insn[31:0]
+@28
+tb.core.iu.d__o__clear
+tb.core.iu.d__o__stall
+@200
+-BRU
+@2
+tb.core.bu.bt_x__i__cia[29:0]
+@22
+tb.core.clu.x_cr_rev[31:0]
+@28
+tb.core.bu.x__o__taken
+@200
+-DEC
+@28
+tb.core.dec.d_valid_insn
+@200
+-PIPE
+@28
+tb.core.d_stall
+tb.core.d_clear
+tb.core.m_stall
+tb.core.x_stall
+tb.core.x_clear
+tb.core.xm_reg_w__stb
+@200
+-RF
+@23
++{CR MAYBE} tb.core.cr.x_storage[31:0]
+@c00200
+-XER
+@28
+tb.core.xer.x_storage__so
+tb.core.xer.x_storage__ca
+tb.core.xer.x_storage__ov
+tb.core.xer.x_storage__ca32
+tb.core.xer.x_storage__ov32
+@22
+tb.core.xer.x_storage___48[7:0]
+tb.core.xer.x_storage___57[6:0]
+@1401200
+-XER
+@c00200
+-GPR
+@22
++{R00} tb.core.rf.loc[0].dat[0:31]
++{R01} tb.core.rf.loc[1].dat[0:31]
++{R02} tb.core.rf.loc[2].dat[0:31]
++{R03} tb.core.rf.loc[3].dat[0:31]
++{R04} tb.core.rf.loc[4].dat[0:31]
++{R05} tb.core.rf.loc[5].dat[0:31]
++{R06} tb.core.rf.loc[6].dat[0:31]
++{R07} tb.core.rf.loc[7].dat[0:31]
++{R08} tb.core.rf.loc[8].dat[0:31]
++{R09} tb.core.rf.loc[9].dat[0:31]
++{R10} tb.core.rf.loc[10].dat[0:31]
++{R11} tb.core.rf.loc[11].dat[0:31]
++{R12} tb.core.rf.loc[12].dat[0:31]
++{R13} tb.core.rf.loc[13].dat[0:31]
++{R14} tb.core.rf.loc[14].dat[0:31]
++{R15} tb.core.rf.loc[15].dat[0:31]
++{R16} tb.core.rf.loc[16].dat[0:31]
++{R17} tb.core.rf.loc[17].dat[0:31]
++{R18} tb.core.rf.loc[18].dat[0:31]
++{R19} tb.core.rf.loc[19].dat[0:31]
++{R20} tb.core.rf.loc[20].dat[0:31]
++{R21} tb.core.rf.loc[21].dat[0:31]
++{R22} tb.core.rf.loc[22].dat[0:31]
++{R23} tb.core.rf.loc[23].dat[0:31]
++{R24} tb.core.rf.loc[24].dat[0:31]
++{R25} tb.core.rf.loc[25].dat[0:31]
++{R26} tb.core.rf.loc[26].dat[0:31]
++{R27} tb.core.rf.loc[27].dat[0:31]
++{R28} tb.core.rf.loc[28].dat[0:31]
++{R29} tb.core.rf.loc[29].dat[0:31]
++{R30} tb.core.rf.loc[30].dat[0:31]
++{R31} tb.core.rf.loc[31].dat[0:31]
+@1401200
+-GPR
+@c00200
+-SPR
+@22
++{S00} tb.core.rf.loc[32].dat[0:31]
++{S01} tb.core.rf.loc[33].dat[0:31]
++{S02} tb.core.rf.loc[34].dat[0:31]
++{S03} tb.core.rf.loc[35].dat[0:31]
++{S04} tb.core.rf.loc[36].dat[0:31]
++{S05} tb.core.rf.loc[37].dat[0:31]
++{S06} tb.core.rf.loc[38].dat[0:31]
+@1401200
+-SPR
+@28
+tb.core.rf.mem1_w_en
+@22
+tb.core.rf.mem1_w_addr[5:0]
+tb.core.rf.mem1_w_data[31:0]
+@2
+tb.core.bu.bt.x__i__cia[29:0]
+@8
+tb.core.bu.bt.x__i__sel1__cia
+@2
+tb.core.bu.bt_x__i__cia[29:0]
+@8
+tb.core.bu.bt_x__i__sel1__cia
+@2
+tb.core.bu.x__i__cia[29:0]
+tb.core.bu_x__i__cia[29:0]
+tb.core.dx_reg.r__data__cia[29:0]
+tb.core.dx_reg_r__data__cia[29:0]
+tb.core.iu.x__i__cia[29:0]
+tb.core.iu_x__i__cia[29:0]
+[pattern_trace] 1
+[pattern_trace] 0
